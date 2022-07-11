@@ -1,0 +1,688 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<sqlMap namespace="pay_info" xmlns="http://ibatis.apache.org/mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="pay_info" type="NrOA.CheckAccount.em.pay_info" />
+  </alias>
+  <resultMaps>
+    <resultMap id="SelectResult" class="pay_info">
+      <result property="Client_ID" column="Client_ID"/>
+	<result property="ClientName" column="ClientName"/>
+	<result property="ClientOperationID" column="ClientOperationID"/>
+	<result property="RunDate" column="RunDate"/>
+	<result property="fc" column="fc"/>
+	<result property="jr" column="jr"/>
+	<result property="yr" column="yr"/>
+	<result property="bz" column="bz"/>
+	<result property="month1" column="month1"/>
+	<result property="month2" column="month2"/>
+	<result property="month3" column="month3"/>
+	<result property="month4" column="month4"/>
+	<result property="month5" column="month5"/>
+	<result property="month6" column="month6"/>
+	<result property="month7" column="month7"/>
+	<result property="month8" column="month8"/>
+	<result property="month9" column="month9"/>
+	<result property="month10" column="month10"/>
+	<result property="month11" column="month11"/>
+	<result property="month12" column="month12"/>
+	<result property="ClientListID" column="ClientListID"/>
+	<result property="AreaName" column="AreaName"/>
+	<result property="type" column="type"/>
+	<result property="start_mon" column="start_mon"/>
+	<result property="end_Month" column="end_Month"/>
+	<result property="ProductType" column="ProductType"/>	
+	
+    </resultMap>
+    
+    <resultMap id="SelectResult1" class="pay_info">
+      <result property="Client_ID" column="Client_ID"/>
+	<result property="ClientName" column="ClientName"/>
+	<result property="ClientOperationID" column="ClientOperationID"/>
+	<result property="ClientListID" column="ClientListID"/>
+	<result property="RunDate" column="RunDate"/>
+	<result property="fc" column="fc"/>
+	<result property="jr" column="jr"/>
+	<result property="yr" column="yr"/>
+	<result property="bz" column="bz"/>
+	<result property="month1" column="month1"/>
+	<result property="month2" column="month2"/>
+	<result property="month3" column="month3"/>
+	<result property="month4" column="month4"/>
+	<result property="month5" column="month5"/>
+	<result property="month6" column="month6"/>
+	<result property="month7" column="month7"/>
+	<result property="month8" column="month8"/>
+	<result property="month9" column="month9"/>
+	<result property="month10" column="month10"/>
+	<result property="month11" column="month11"/>
+	<result property="month12" column="month12"/>
+	<result property="ProductType" column="ProductType"/>	
+	<result property="type" column="type"/>
+    </resultMap>
+
+  </resultMaps>
+  <statements>
+  
+  <select id="Selectpay_info_byAreaName"  parameterClass ="pay_info"  resultMap="SelectResult1" >
+  
+	select
+	distinct a.ClientOperationID,a.ClientName,a.Client_ID,a.RunDate,a.ProductType,
+	(select Poundage from tb_area where tb_area.Area_ID = a.AreaName) as fc
+	,Convert(int,a.ClientListID) as ClientListID,
+	#yr# as yr,
+	(select remark from t_year_bz where  t_year_bz.t_year =#yr# and t_year_bz.usernb = a.ClientOperationID) as bz
+	,
+	(select type from t_year_bz where  t_year_bz.t_year = #yr# and t_year_bz.usernb = a.ClientOperationID) as type
+	,
+	case when 
+	(select count (id) from dbo.t_yicixing where t_year=#yr#
+	and t_yicixing.usernb= a.ClientOperationID ) >1
+	then 
+	(select top 1 t_onepay from dbo.t_yicixing where t_year=#yr# 
+	and t_yicixing.usernb= a.ClientOperationID order by id desc) + '+'+
+	(select top 1 t_onepay from dbo.t_yicixing where t_year=#yr#
+	and t_yicixing.usernb= a.ClientOperationID  order by id asc)
+	else
+	isnull((select  t_onepay from dbo.t_yicixing where t_yicixing.t_year=#yr# 
+	and t_yicixing.usernb= a.ClientOperationID ),0)
+	end
+	as jr
+	,
+	case when 
+	(select count (id) from dbo.t_huikuan where t_year=#yr#
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='1' ) >1
+	then 
+	(select top 1 month_pay  from dbo.t_huikuan where t_year=#yr# 
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='1'  order by id desc) + '+'+
+	(select top 1 month_pay from dbo.t_huikuan where t_year=#yr#
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='1' order by id asc)
+	else
+	isnull((select  month_pay from dbo.t_huikuan where t_huikuan.t_year=#yr# 
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='1'),0)
+	end
+	as month1
+	,
+	case when 
+	(select count (id) from dbo.t_huikuan where t_year=#yr#
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='2' ) >1
+	then 
+	(select top 1 month_pay  from dbo.t_huikuan where t_year=#yr# 
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='2'  order by id desc) + '+'+
+	(select top 1 month_pay from dbo.t_huikuan where t_year=#yr#
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='2' order by id asc)
+	else
+	isnull((select  month_pay from dbo.t_huikuan where t_huikuan.t_year=#yr# 
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='2'),0)
+	end
+	as month2
+	,
+	case when 
+	(select count (id) from dbo.t_huikuan where t_year=#yr#
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='3' ) >1
+	then 
+	(select top 1 month_pay  from dbo.t_huikuan where t_year=#yr# 
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='3'  order by id desc) + '+'+
+	(select top 1 month_pay from dbo.t_huikuan where t_year=#yr#
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='3' order by id asc)
+	else
+	isnull((select  month_pay from dbo.t_huikuan where t_huikuan.t_year=#yr# 
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='3'),0)
+	end
+	as month3
+	,
+	case when 
+	(select count (id) from dbo.t_huikuan where t_year=#yr#
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='4' ) >1
+	then 
+	(select top 1 month_pay  from dbo.t_huikuan where t_year=#yr# 
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='4'  order by id desc) + '+'+
+	(select top 1 month_pay from dbo.t_huikuan where t_year=#yr#
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='4' order by id asc)
+	else
+	isnull((select  month_pay from dbo.t_huikuan where t_huikuan.t_year=#yr# 
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='4'),0)
+	end
+	as month4
+	,
+	case when 
+	(select count (id) from dbo.t_huikuan where t_year=#yr#
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='5' ) >1
+	then 
+	(select top 1 month_pay  from dbo.t_huikuan where t_year=#yr# 
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='5'  order by id desc) + '+'+
+	(select top 1 month_pay from dbo.t_huikuan where t_year=#yr#
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='5' order by id asc)
+	else
+	isnull((select  month_pay from dbo.t_huikuan where t_huikuan.t_year=#yr# 
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='5'),0)
+	end
+	as month5
+	,
+	case when 
+	(select count (id) from dbo.t_huikuan where t_year=#yr#
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='6' ) >1
+	then 
+	(select top 1 month_pay  from dbo.t_huikuan where t_year=#yr# 
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='6'  order by id desc) + '+'+
+	(select top 1 month_pay from dbo.t_huikuan where t_year=#yr#
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='6' order by id asc)
+	else
+	isnull((select  month_pay from dbo.t_huikuan where t_huikuan.t_year=#yr# 
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='6'),0)
+	end
+	as month6
+	,
+	case when 
+	(select count (id) from dbo.t_huikuan where t_year=#yr#
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='7' ) >1
+	then 
+	(select top 1 month_pay  from dbo.t_huikuan where t_year=#yr# 
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='7'  order by id desc) + '+'+
+	(select top 1 month_pay from dbo.t_huikuan where t_year=#yr#
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='7' order by id asc)
+	else
+	isnull((select  month_pay from dbo.t_huikuan where t_huikuan.t_year=#yr# 
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='7'),0)
+	end
+	as month7
+	,
+	case when 
+	(select count (id) from dbo.t_huikuan where t_year=#yr#
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='8' ) >1
+	then 
+	(select top 1 month_pay  from dbo.t_huikuan where t_year=#yr# 
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='8'  order by id desc) + '+'+
+	(select top 1 month_pay from dbo.t_huikuan where t_year=#yr#
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='8' order by id asc)
+	else
+	isnull((select  month_pay from dbo.t_huikuan where t_huikuan.t_year=#yr# 
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='8'),0)
+	end
+	as month8
+	,
+	case when 
+	(select count (id) from dbo.t_huikuan where t_year=#yr#
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='9' ) >1
+	then 
+	(select top 1 month_pay  from dbo.t_huikuan where t_year=#yr# 
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='9'  order by id desc) + '+'+
+	(select top 1 month_pay from dbo.t_huikuan where t_year=#yr#
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='9' order by id asc)
+	else
+	isnull((select  month_pay from dbo.t_huikuan where t_huikuan.t_year=#yr# 
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='9'),0)
+	end
+	as month9
+	,
+	case when 
+	(select count (id) from dbo.t_huikuan where t_year=#yr#
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='10' ) >1
+	then 
+	(select top 1 month_pay  from dbo.t_huikuan where t_year=#yr# 
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='10'  order by id desc) + '+'+
+	(select top 1 month_pay from dbo.t_huikuan where t_year=#yr#
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='10' order by id asc)
+	else
+	isnull((select  month_pay from dbo.t_huikuan where t_huikuan.t_year=#yr# 
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='10'),0)
+	end
+	as month10
+	,
+	case when 
+	(select count (id) from dbo.t_huikuan where t_year=#yr#
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='11' ) >1
+	then 
+	(select top 1 month_pay  from dbo.t_huikuan where t_year=#yr# 
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='11'  order by id desc) + '+'+
+	(select top 1 month_pay from dbo.t_huikuan where t_year=#yr#
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='11' order by id asc)
+	else
+	isnull((select  month_pay from dbo.t_huikuan where t_huikuan.t_year=#yr# 
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='11'),0)
+	end
+	as month11
+	,
+	case when 
+	(select count (id) from dbo.t_huikuan where t_year=#yr#
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='12' ) >1
+	then 
+	(select top 1 month_pay  from dbo.t_huikuan where t_year=#yr# 
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='12'  order by id desc) + '+'+
+	(select top 1 month_pay from dbo.t_huikuan where t_year=#yr#
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='12' order by id asc)
+	else
+	isnull((select  month_pay from dbo.t_huikuan where t_huikuan.t_year=#yr# 
+	and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='12'),0)
+	end
+	as month12
+	from TB_ClientInfo a
+	where
+	a.AreaName = #AreaName#
+	and 
+	a.ClientState = 0
+	order by a.ClientListID ASC
+  </select>
+  
+  <select id="Selectpay_info_byAreaName1" parameterClass ="pay_info" resultMap="SelectResult1" >
+			
+			select 
+			distinct a.ClientOperationID,a.ClientName,a.Client_ID,a.RunDate,a.ProductType,
+			(select Poundage from tb_area where tb_area.Area_ID = a.AreaName) as fc
+			,Convert(int,a.ClientListID) as ClientListID,
+			#yr# as yr
+			,
+			(select remark from t_year_bz where  t_year_bz.t_year =#yr# and t_year_bz.usernb = a.ClientOperationID) as bz
+			,
+			(select type from t_year_bz where  t_year_bz.t_year = #yr# and t_year_bz.usernb = a.ClientOperationID) as type
+			,
+			case when 
+			(select count (id) from dbo.t_yicixing where t_year=#yr#
+			and t_yicixing.usernb= a.ClientOperationID ) >1
+			then 
+			(select top 1 t_onepay from dbo.t_yicixing where t_year=#yr# 
+			and t_yicixing.usernb= a.ClientOperationID order by id desc) + '+'+
+			(select top 1 t_onepay from dbo.t_yicixing where t_year=#yr#
+			and t_yicixing.usernb= a.ClientOperationID  order by id asc)
+			else
+			isnull((select  t_onepay from dbo.t_yicixing where t_yicixing.t_year=#yr# 
+			and t_yicixing.usernb= a.ClientOperationID ),0)
+			end
+			as jr
+			,
+			case when 
+			(select count (id) from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='1' ) >1
+			then 
+			(select top 1 month_pay  from dbo.t_huikuan where t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='1'  order by id desc) + '+'+
+			(select top 1 month_pay from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='1' order by id asc)
+			else
+			isnull((select  month_pay from dbo.t_huikuan where t_huikuan.t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='1'),0)
+			end
+			as month1
+			,
+			case when 
+			(select count (id) from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='2' ) >1
+			then 
+			(select top 1 month_pay  from dbo.t_huikuan where t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='2'  order by id desc) + '+'+
+			(select top 1 month_pay from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='2' order by id asc)
+			else
+			isnull((select  month_pay from dbo.t_huikuan where t_huikuan.t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='2'),0)
+			end
+			as month2
+			,
+			case when 
+			(select count (id) from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='3' ) >1
+			then 
+			(select top 1 month_pay  from dbo.t_huikuan where t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='3'  order by id desc) + '+'+
+			(select top 1 month_pay from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='3' order by id asc)
+			else
+			isnull((select  month_pay from dbo.t_huikuan where t_huikuan.t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='3'),0)
+			end
+			as month3
+			,
+			case when 
+			(select count (id) from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='4' ) >1
+			then 
+			(select top 1 month_pay  from dbo.t_huikuan where t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='4'  order by id desc) + '+'+
+			(select top 1 month_pay from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='4' order by id asc)
+			else
+			isnull((select  month_pay from dbo.t_huikuan where t_huikuan.t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='4'),0)
+			end
+			as month4
+			,
+			case when 
+			(select count (id) from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='5' ) >1
+			then 
+			(select top 1 month_pay  from dbo.t_huikuan where t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='5'  order by id desc) + '+'+
+			(select top 1 month_pay from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='5' order by id asc)
+			else
+			isnull((select  month_pay from dbo.t_huikuan where t_huikuan.t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='5'),0)
+			end
+			as month5
+			,
+			case when 
+			(select count (id) from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='6' ) >1
+			then 
+			(select top 1 month_pay  from dbo.t_huikuan where t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='6'  order by id desc) + '+'+
+			(select top 1 month_pay from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='6' order by id asc)
+			else
+			isnull((select  month_pay from dbo.t_huikuan where t_huikuan.t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='6'),0)
+			end
+			as month6
+			,
+			case when 
+			(select count (id) from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='7' ) >1
+			then 
+			(select top 1 month_pay  from dbo.t_huikuan where t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='7'  order by id desc) + '+'+
+			(select top 1 month_pay from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='7' order by id asc)
+			else
+			isnull((select  month_pay from dbo.t_huikuan where t_huikuan.t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='7'),0)
+			end
+			as month7
+			,
+			case when 
+			(select count (id) from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='8' ) >1
+			then 
+			(select top 1 month_pay  from dbo.t_huikuan where t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='8'  order by id desc) + '+'+
+			(select top 1 month_pay from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='8' order by id asc)
+			else
+			isnull((select  month_pay from dbo.t_huikuan where t_huikuan.t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='8'),0)
+			end
+			as month8
+			,
+			case when 
+			(select count (id) from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='9' ) >1
+			then 
+			(select top 1 month_pay  from dbo.t_huikuan where t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='9'  order by id desc) + '+'+
+			(select top 1 month_pay from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='9' order by id asc)
+			else
+			isnull((select  month_pay from dbo.t_huikuan where t_huikuan.t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='9'),0)
+			end
+			as month9
+			,
+			case when 
+			(select count (id) from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='10' ) >1
+			then 
+			(select top 1 month_pay  from dbo.t_huikuan where t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='10'  order by id desc) + '+'+
+			(select top 1 month_pay from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='10' order by id asc)
+			else
+			isnull((select  month_pay from dbo.t_huikuan where t_huikuan.t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='10'),0)
+			end
+			as month10
+			,
+			case when 
+			(select count (id) from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='11' ) >1
+			then 
+			(select top 1 month_pay  from dbo.t_huikuan where t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='11'  order by id desc) + '+'+
+			(select top 1 month_pay from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='11' order by id asc)
+			else
+			isnull((select  month_pay from dbo.t_huikuan where t_huikuan.t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='11'),0)
+			end
+			as month11
+			,
+			case when 
+			(select count (id) from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='12' ) >1
+			then 
+			(select top 1 month_pay  from dbo.t_huikuan where t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='12'  order by id desc) + '+'+
+			(select top 1 month_pay from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='12' order by id asc)
+			else
+			isnull((select  month_pay from dbo.t_huikuan where t_huikuan.t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='12'),0)
+			end
+			as month12
+			
+			from TB_ClientInfo a ,T_Client_Rundate tt
+			where
+			a.AreaName = #AreaName#
+			and 
+			a.ClientState  = 0
+			and 
+			tt.Runyear = #yr#
+			and
+			cast(tt.Runmonth as int)>= #start_mon#
+			and
+			#end_Month# >= cast(tt.Runmonth as int)
+			and 
+			tt.ClientOperationID = a .ClientOperationID
+			order by a.ClientListID ASC
+		</select>
+		
+		
+		
+		<select id="Selectpay_infoByFind" parameterClass ="pay_info" resultMap="SelectResult1" >
+			select 
+			distinct a.ClientOperationID,a.ClientName,a.Client_ID,a.ClientListID,a.RunDate,a.ProductType,
+			(select Poundage from tb_area where tb_area.Area_ID = a.AreaName) as fc
+			,
+			#yr# as yr,
+			(select remark from t_year_bz where  t_year_bz.t_year =#yr# and t_year_bz.usernb = a.ClientOperationID) as bz
+			,
+			(select type from t_year_bz where  t_year_bz.t_year = #yr# and t_year_bz.usernb = a.ClientOperationID) as type
+			,
+			case when 
+			(select count (id) from dbo.t_yicixing where t_year=#yr#
+			and t_yicixing.usernb= a.ClientOperationID ) >1
+			then 
+			(select top 1 t_onepay from dbo.t_yicixing where t_year=#yr# 
+			and t_yicixing.usernb= a.ClientOperationID order by id desc) + '+'+
+			(select top 1 t_onepay from dbo.t_yicixing where t_year=#yr#
+			and t_yicixing.usernb= a.ClientOperationID  order by id asc)
+			else
+			isnull((select  t_onepay from dbo.t_yicixing where t_yicixing.t_year=#yr# 
+			and t_yicixing.usernb= a.ClientOperationID ),0)
+			end
+			as jr
+			,
+			case when 
+			(select count (id) from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='1' ) >1
+			then 
+			(select top 1 month_pay  from dbo.t_huikuan where t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='1'  order by id desc) + '+'+
+			(select top 1 month_pay from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='1' order by id asc)
+			else
+			isnull((select  month_pay from dbo.t_huikuan where t_huikuan.t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='1'),0)
+			end
+			as month1
+			,
+			case when 
+			(select count (id) from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='2' ) >1
+			then 
+			(select top 1 month_pay  from dbo.t_huikuan where t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='2'  order by id desc) + '+'+
+			(select top 1 month_pay from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='2' order by id asc)
+			else
+			isnull((select  month_pay from dbo.t_huikuan where t_huikuan.t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='2'),0)
+			end
+			as month2
+			,
+			case when 
+			(select count (id) from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='3' ) >1
+			then 
+			(select top 1 month_pay  from dbo.t_huikuan where t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='3'  order by id desc) + '+'+
+			(select top 1 month_pay from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='3' order by id asc)
+			else
+			isnull((select  month_pay from dbo.t_huikuan where t_huikuan.t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='3'),0)
+			end
+			as month3
+			,
+			case when 
+			(select count (id) from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='4' ) >1
+			then 
+			(select top 1 month_pay  from dbo.t_huikuan where t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='4'  order by id desc) + '+'+
+			(select top 1 month_pay from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='4' order by id asc)
+			else
+			isnull((select  month_pay from dbo.t_huikuan where t_huikuan.t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='4'),0)
+			end
+			as month4
+			,
+			case when 
+			(select count (id) from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='5' ) >1
+			then 
+			(select top 1 month_pay  from dbo.t_huikuan where t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='5'  order by id desc) + '+'+
+			(select top 1 month_pay from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='5' order by id asc)
+			else
+			isnull((select  month_pay from dbo.t_huikuan where t_huikuan.t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='5'),0)
+			end
+			as month5
+			,
+			case when 
+			(select count (id) from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='6' ) >1
+			then 
+			(select top 1 month_pay  from dbo.t_huikuan where t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='6'  order by id desc) + '+'+
+			(select top 1 month_pay from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='6' order by id asc)
+			else
+			isnull((select  month_pay from dbo.t_huikuan where t_huikuan.t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='6'),0)
+			end
+			as month6
+			,
+			case when 
+			(select count (id) from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='7' ) >1
+			then 
+			(select top 1 month_pay  from dbo.t_huikuan where t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='7'  order by id desc) + '+'+
+			(select top 1 month_pay from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='7' order by id asc)
+			else
+			isnull((select  month_pay from dbo.t_huikuan where t_huikuan.t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='7'),0)
+			end
+			as month7
+			,
+			case when 
+			(select count (id) from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='8' ) >1
+			then 
+			(select top 1 month_pay  from dbo.t_huikuan where t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='8'  order by id desc) + '+'+
+			(select top 1 month_pay from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='8' order by id asc)
+			else
+			isnull((select  month_pay from dbo.t_huikuan where t_huikuan.t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='8'),0)
+			end
+			as month8
+			,
+			case when 
+			(select count (id) from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='9' ) >1
+			then 
+			(select top 1 month_pay  from dbo.t_huikuan where t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='9'  order by id desc) + '+'+
+			(select top 1 month_pay from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='9' order by id asc)
+			else
+			isnull((select  month_pay from dbo.t_huikuan where t_huikuan.t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='9'),0)
+			end
+			as month9
+			,
+			case when 
+			(select count (id) from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='10' ) >1
+			then 
+			(select top 1 month_pay  from dbo.t_huikuan where t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='10'  order by id desc) + '+'+
+			(select top 1 month_pay from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='10' order by id asc)
+			else
+			isnull((select  month_pay from dbo.t_huikuan where t_huikuan.t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='10'),0)
+			end
+			as month10
+			,
+			case when 
+			(select count (id) from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='11' ) >1
+			then 
+			(select top 1 month_pay  from dbo.t_huikuan where t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='11'  order by id desc) + '+'+
+			(select top 1 month_pay from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='11' order by id asc)
+			else
+			isnull((select  month_pay from dbo.t_huikuan where t_huikuan.t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='11'),0)
+			end
+			as month11
+			,
+			case when 
+			(select count (id) from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='12' ) >1
+			then 
+			(select top 1 month_pay  from dbo.t_huikuan where t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='12'  order by id desc) + '+'+
+			(select top 1 month_pay from dbo.t_huikuan where t_year=#yr#
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='12' order by id asc)
+			else
+			isnull((select  month_pay from dbo.t_huikuan where t_huikuan.t_year=#yr# 
+			and t_huikuan.usernb= a.ClientOperationID and t_huikuan.t_month ='12'),0)
+			end
+			as month12
+			
+			from TB_ClientInfo a ,TB_Area ta
+			where
+			(a.ClientName like #ClientName# 
+			or
+			a.ClientOperationID like #ClientName#
+			or
+			a.ClientAddress like #ClientName#
+			or
+			a.ClientPhone like #ClientName#)
+			and 
+			a.ClientState = 0
+			and 
+			a.AreaName = ta.Area_ID
+			and 
+			ta.Area_state = 0
+		</select>
+  
+  </statements>
+  </sqlMap>

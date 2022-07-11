@@ -1,0 +1,23 @@
+------ 已启动生成: 项目: NrOA, 配置: Debug .NET ------
+
+正在准备资源...
+正在更新引用...
+正在执行主编译...
+E:\工作程序\诺瑞对帐系统\NrOA\CheckAccount\BackFundList.aspx.cs(135,14): warning CS0219: 变量“dt”已赋值，但其值从未使用过
+E:\工作程序\诺瑞对帐系统\NrOA\CheckAccount\BackFundPutInt.aspx.cs(59,11): warning CS0219: 变量“ss”已赋值，但其值从未使用过
+E:\工作程序\诺瑞对帐系统\NrOA\CheckAccount\BackFundPutInt.aspx.cs(95,4): warning CS0168: 声明了变量“Ex”，但从未使用过
+E:\工作程序\诺瑞对帐系统\NrOA\CheckAccount\ChargeList.aspx.cs(194,14): warning CS0219: 变量“dt”已赋值，但其值从未使用过
+E:\工作程序\诺瑞对帐系统\NrOA\NewAndFinish\NAFInput.aspx.cs(138,10): warning CS0219: 变量“li”已赋值，但其值从未使用过
+E:\工作程序\诺瑞对帐系统\NrOA\NewAndFinish\NAFInput.aspx.cs(145,12): warning CS0219: 变量“slist”已赋值，但其值从未使用过
+E:\工作程序\诺瑞对帐系统\NrOA\CheckAccount\ChargePutInt.aspx.cs(44,15): warning CS0169: 私有字段“NrOA.CheckAccount.ChargePutInt.find”从未使用过
+
+生成完成 -- 0 个错误，7 个警告
+正在生成附属程序集...
+
+
+
+---------------------- 完成 ---------------------
+
+    生成: 1 已成功, 0 已失败, 0 已跳过
+
+

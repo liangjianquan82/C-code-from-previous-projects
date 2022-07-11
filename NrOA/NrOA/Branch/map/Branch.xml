@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<sqlMap namespace="Branch" xmlns="http://ibatis.apache.org/mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<alias>
+		<typeAlias alias="Branch" type="NrOA.Branch.em.Branch" />
+	</alias>
+	<resultMaps>
+		<resultMap id="SelectResult" class="Branch">
+			<result property="Branch_ID" column="Branch_ID"/>
+			<result property="BranchName" column="BranchName"/>
+			<result property="BranchRemark" column="BranchRemark"/>
+		</resultMap>
+		<resultMap id="SelectResult1" class="Branch">
+			<result property="Branch_ID" column="Branch_ID"/>
+		</resultMap>
+	</resultMaps>
+	<statements>
+		<select id="BranchMaxID" resultMap="SelectResult1">
+			select max(Branch_ID) Branch_ID
+			from TB_Branch
+		</select>
+		<select id="SelectAllBranch" resultMap="SelectResult">
+			select * from TB_Branch
+			order by Branch_ID asc
+		</select>
+		<delete id="DelectBranch_by_ID" parameterClass="int">
+			delete from TB_Branch
+			where
+			Branch_ID = value
+		</delete>
+		<select id ="BranchInfo_by_id" resultMap="SelectResult" >
+			select * from TB_Branch
+			where
+			Branch_ID = #value#
+		</select>
+		<insert id="insertBranchInfo" parameterClass="Branch">
+			insert into TB_Branch
+			(Branch_ID,BranchName,BranchRemark)
+			values
+			(#Branch_ID#,#BranchName#,#BranchRemark#)
+		</insert>
+		<update id="UpdateBranchInfo" parameterClass="Branch">
+			update TB_Branch set
+			BranchName = #BranchName#,
+			BranchRemark = #BranchRemark#
+			where
+			Branch_ID = #Branch_ID#
+		</update>s
+	</statements>
+</sqlMap>

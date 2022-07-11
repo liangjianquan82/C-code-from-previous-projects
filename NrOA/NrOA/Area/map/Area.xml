@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<sqlMap namespace="Area" xmlns="http://ibatis.apache.org/mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<alias>
+		<typeAlias alias="Area" type="NrOA.Area.em.Area" />
+	</alias>
+	<resultMaps>
+		<resultMap id="SelectResult" class="Area">
+			<result property="Area_ID" column="Area_ID"/>
+			<result property="AreaName" column="AreaName"/>
+			<result property="AreaRemark" column="AreaRemark"/>
+			<result property="Poundage" column="Poundage"/>
+			<result property="Area_state" column="Area_state"/>
+			<result property="Area_listid" column="Area_listid"/>
+		</resultMap>
+		<resultMap id="SelectResult1" class="Area">
+			<result property="Area_ID" column="Area_ID"/>
+		</resultMap>
+	</resultMaps>
+	<statements>
+		<select id="AreaMaxID" resultMap="SelectResult1">
+			select max(Area_ID) Area_ID
+			from TB_Area
+		</select>
+		<select id="SelectAreaAll_LoginIn" resultMap="SelectResult">
+			select * from TB_Area
+			where 
+			Area_state = 0
+			order by cast(Area_listid as int) asc
+ 		</select>
+		<select id="SelectAreaAll_LoginIn1" resultMap="SelectResult">
+			select * from TB_Area
+			where 
+			Area_state = #Area_state#
+			order by  cast(Area_listid as int) asc
+		</select>
+		<select id="SelectAreaAll" resultMap="SelectResult">
+			select * from TB_Area
+			
+		</select>
+		<select id="SelectArea_By_ID"  resultMap="SelectResult" >
+			select * from TB_Area
+			where 
+			Area_ID = #value#
+		</select>
+		<update id="Area_State_Change" parameterClass="Area">
+			update TB_Area set
+			Area_state = #Area_state#
+			where
+			Area_ID = #Area_ID#
+		</update>
+		<insert id="InsertAreaInfo" parameterClass="Area"> 
+			insert into TB_Area
+			(Area_ID,AreaName,AreaRemark,Poundage,Area_listid)
+			values
+			(#Area_ID#,#AreaName#,#AreaRemark#,#Poundage#,#Area_listid#)
+		</insert>
+		<update id="Update_AreaInfo" parameterClass="Area">
+			update TB_Area set
+			AreaName = #AreaName#,
+			AreaRemark = #AreaRemark#,
+			Poundage = #Poundage#,
+			Area_listid = #Area_listid#
+			where
+			Area_ID = #Area_ID#
+		</update>
+	</statements>
+</sqlMap>

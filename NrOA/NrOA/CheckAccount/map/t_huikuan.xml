@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="t_huikuan" xmlns="http://ibatis.apache.org/mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="t_huikuan" type="NrOA.CheckAccount.em.t_huikuan" />
+  </alias>
+  <resultMaps>
+    <resultMap id="SelectResult" class="t_huikuan">
+      <result property="id" column="id"/>
+      <result property="usernb" column="usernb"/>
+      <result property="t_month" column="t_month"/>
+      <result property="t_year" column="t_year"/>
+      <result property="month_pay" column="month_pay"/>
+      <result property="month_fc" column="month_fc"/>
+    </resultMap>
+    
+    <resultMap id="SelectResult1" class="t_huikuan">
+      <result property="t_year" column="t_year"/>
+    </resultMap>
+
+  </resultMaps>
+  <statements>
+    <!--<select></select>-->
+    <insert id="insert_t_huikuan" parameterClass="t_huikuan">
+      insert into t_huikuan
+      (usernb,t_month,t_year,month_pay,month_fc)
+      values
+      (#usernb#,#t_month#,#t_year#,#month_pay#,#month_fc#)
+    </insert>
+    <update id="update_hk" parameterClass="t_huikuan">
+      update t_huikuan set
+      month_pay = #month_pay#,
+      month_fc = #month_fc#
+      where
+      usernb=#usernb#
+      and
+      t_month = #t_month#
+      and
+      t_year = #t_year#
+    </update>
+    <delete id="delete_by_hk_yearandmonth" parameterClass="t_huikuan">
+      delete from t_huikuan
+      where
+      t_month = #t_month#
+      and
+      t_year = #t_year#
+    </delete>
+    <select id="min_year" resultMap="SelectResult1">
+    select min(t_year) as t_year from 
+	dbo.t_huikuan 
+    </select>
+    <select id="hu_by_year_id" parameterClass="t_huikuan" resultMap="SelectResult">
+    select * from 
+	dbo.t_huikuan 
+	where
+    t_year = #t_year#
+    and 
+     usernb = #usernb#
+     and
+     t_month = #t_month#
+    </select>
+    
+    <select id="hk_notin_client1" parameterClass="t_huikuan" resultMap="SelectResult">
+			select * from
+			t_huikuan
+			where
+			(usernb NOT IN
+			(SELECT ClientOperationID
+			FROM TB_ClientInfo))
+			and t_year = #t_year#
+		</select>
+		<select id="hk_notin_client2" parameterClass="t_huikuan" resultMap="SelectResult">
+			select * from
+			t_huikuan
+			where
+			(usernb NOT IN
+			(SELECT ClientOperationID
+			FROM TB_ClientInfo))
+			and t_year = #t_year#
+			and t_month = #t_month#
+		</select>
+		<select id="hk_notin_client3" parameterClass="t_huikuan" resultMap="SelectResult">
+			select * from
+			t_huikuan
+			where
+			(usernb NOT IN
+			(SELECT ClientOperationID
+			FROM TB_ClientInfo))
+			and t_year = #t_year#
+			and (ClientName like #usernb# or ClientOperationID like #usernb#)
+		</select>
+		<select id="hk_notin_client4" parameterClass="t_huikuan" resultMap="SelectResult">
+			select * from
+			t_huikuan
+			where
+			(usernb NOT IN
+			(SELECT ClientOperationID
+			FROM TB_ClientInfo))
+			and t_year = #t_year#
+			and t_month = #t_month#
+			and (ClientName like #usernb# or ClientOperationID like #usernb#)
+		</select>
+    
+  </statements>
+</sqlMap>

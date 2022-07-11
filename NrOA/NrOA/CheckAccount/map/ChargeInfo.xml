@@ -1,0 +1,1270 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<sqlMap namespace="ChargeInfo" xmlns="http://ibatis.apache.org/mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<alias>
+		<typeAlias alias="ChargeInfo" type="NrOA.CheckAccount.em.ChargeInfo" />
+		<typeAlias alias="Client1" type="NrOA.Client.em.Client" />
+	</alias>
+	<resultMaps>
+		<resultMap id="SelectResult" class="ChargeInfo">
+			<result property="Charge_ID" column="Charge_ID"/>
+			<result property="ClientName" column="ClientName"/>
+			<result property="ClientOperationID" column="ClientOperationID"/>
+			
+		
+			
+			<result property="ProductType" column="ProductType"/>
+			<result property="UseCyc" column="UseCyc"/>
+			<result property="OneOffConnectFees" column="OneOffConnectFees"/>
+			<result property="FirstPayment" column="FirstPayment"/>
+			<result property="Payment_by_Year" column="Payment_by_Year"/>
+			<result property="Payment_by_Month" column="Payment_by_Month"/>
+			<result property="RegisterMane" column="RegisterMane"/>
+			<result property="RegisterTime" column="RegisterTime"/>
+			<result property="Now_Poundage" column="Now_Poundage"/>
+			
+			<result property="PaymentMonth" column="PaymentMonth"/>
+			<result property="PaymentYear" column="PaymentYear"/>
+			
+			<result property="MovePay" column="MovePay"/>	
+			
+			
+		</resultMap>
+		
+		<resultMap id="SelectResult1" class="ChargeInfo">
+			<result property="Charge_ID" column="Charge_ID"/>
+			<result property="ClientName" column="ClientName"/>
+			<result property="ClientOperationID" column="ClientOperationID"/>
+			
+		
+			
+			<result property="ProductType" column="ProductType"/>
+			<result property="UseCyc" column="UseCyc"/>
+			<result property="OneOffConnectFees" column="OneOffConnectFees"/>
+			<result property="FirstPayment" column="FirstPayment"/>
+			<result property="Payment_by_Year" column="Payment_by_Year"/>
+			<result property="Payment_by_Month" column="Payment_by_Month"/>
+			<result property="RegisterMane" column="RegisterMane"/>
+			<result property="RegisterTime" column="RegisterTime"/>
+			<result property="Now_Poundage" column="Now_Poundage"/>
+			
+			<result property="PaymentMonth" column="PaymentMonth"/>
+			<result property="PaymentYear" column="PaymentYear"/>
+			
+			<result property="MovePay" column="MovePay"/>	
+			<result property="PoundageValue" column="PoundageValue"/>	
+			
+			
+		</resultMap>
+		<resultMap id="SelectResult2" class="Client1">
+			<result property="Client_ID" column="Client_ID"/>
+			<result property="ClientName" column="ClientName"/>
+			<result property="ClientOperationID" column="ClientOperationID"/>
+			<result property="ClientPhone" column="ClientPhone"/>
+			<result property="ClientAddress" column="ClientAddress"/>
+			<result property="ClientAccounts" column="ClientAccounts"/>
+			<result property="ClientPassword" column="ClientPassword"/>
+			<result property="AcceptDate" column="AcceptDate"/>
+			<result property="RunDate" column="RunDate"/>
+			<result property="IDCard" column="IDCard"/>
+			<result property="ProductType" column="ProductType"/>
+			<result property="CircsDescribe" column="CircsDescribe"/>
+			<result property="Remark" column="Remark"/>
+			<result property="AreaName" column="AreaName"/>
+			<result property="AvDate" column="AvDate"/>
+			<result property="ClientListID" column="ClientListID"/>
+			
+			<result property="RegisterMane" column="RegisterMane"/>
+			<result property="RegisterTime" column="RegisterTime"/>
+			
+			<result property="ClientState" column="ClientState"/>
+		</resultMap>
+	</resultMaps>
+	<statements>
+		<insert id="AddOneOffConnectFeesList" parameterClass="ChargeInfo">
+			insert into TB_ChargeInfo
+			(ClientName,ClientOperationID,Now_Poundage,OneOffConnectFees,MovePay,Payment_by_Year,Payment_by_Month,RegisterMane)
+			values
+			(#ClientName#,#ClientOperationID#,#Now_Poundage#,#OneOffConnectFees#,#MovePay#,#Payment_by_Year#,#Payment_by_Month#,#RegisterMane#)
+		</insert>
+		<insert id="FirstPaymentList" parameterClass="ChargeInfo">
+			insert into TB_ChargeInfo
+			(ClientName,ClientOperationID,Now_Poundage,FirstPayment,PaymentYear,Payment_by_Year,Payment_by_Month,RegisterMane,UseCyc)
+			values
+			(#ClientName#,#ClientOperationID#,#Now_Poundage#,#FirstPayment#,#PaymentYear#,#Payment_by_Year#,#Payment_by_Month#,#RegisterMane#,#UseCyc#)
+		</insert>
+		<insert id="BackMonthPay" parameterClass="ChargeInfo">
+			insert into TB_ChargeInfo
+			(ClientName,ClientOperationID,Now_Poundage,PaymentMonth,Payment_by_Year,Payment_by_Month,RegisterMane,UseCyc)
+			values
+			(#ClientName#,#ClientOperationID#,#Now_Poundage#,#PaymentMonth#,#Payment_by_Year#,#Payment_by_Month#,#RegisterMane#,#UseCyc#)
+		</insert>
+		
+		<select id="Find_JRFJFYH" resultMap="SelectResult1" parameterClass="ChargeInfo">
+			select tc.*,tp.PoundageValue from
+			TB_ChargeInfo as tc
+			,TB_ClientInfo as tci
+			,TB_Poundage as tp
+			,TB_Area as ta
+			where
+			tc.OneOffConnectFees is not null
+			and
+			tc.Payment_by_Year = #Year#
+			and
+			tc.Payment_by_Month BETWEEN #startMonth# and #endMonth#
+			and
+			tc.ClientOperationID = tci.ClientOperationID
+			and
+			tci.AreaName = #Area_ID#
+			and
+			tc.OneOffConnectFees != '0'		
+			and
+			tp.PoundageValue = ta.Poundage
+			and
+			ta.Area_ID = tci.AreaName	
+			and
+			tci.ClientState !='1'
+		</select>
+		
+		<select id="Find_QYFJFYH" resultMap ="SelectResult1" parameterClass="ChargeInfo">
+			select tc.*,tp.PoundageValue from
+			TB_ChargeInfo as tc
+			,TB_ClientInfo as tci
+			,TB_Poundage as tp
+			,TB_Area as ta
+			where
+			tc.MovePay is not null
+			and
+			tc.Payment_by_Year = #Year#
+			and
+			tc.Payment_by_Month BETWEEN #startMonth# and #endMonth#
+			and
+			tc.ClientOperationID = tci.ClientOperationID
+			and
+			tci.AreaName = #Area_ID#
+			and
+			tc.MovePay != '0'
+			and
+			tp.PoundageValue = ta.Poundage
+			and
+			ta.Area_ID = tci.AreaName
+			and
+			tci.ClientState !='1'
+		</select>
+		
+		<select id ="Find_NJLB" resultMap ="SelectResult1" parameterClass="ChargeInfo">
+			select tc.*,tp.PoundageValue from
+			TB_ChargeInfo as tc
+			,TB_ClientInfo as tci
+			,TB_Poundage as tp
+			,TB_Area as ta
+			where
+			tc.Payment_by_Year = #Year#
+			and
+			tc.Payment_by_Month BETWEEN #startMonth# and #endMonth#
+			and
+			tc.ClientOperationID = tci.ClientOperationID
+			and
+			tci.AreaName = #Area_ID#
+			and
+			tc.FirstPayment is not null
+			and
+			tp.PoundageValue = ta.Poundage
+			and
+			ta.Area_ID = tci.AreaName
+			and
+			tci.ClientState !='1'
+		</select>
+		
+		<select id="Find_YCXLB" resultMap ="SelectResult1" parameterClass="ChargeInfo">
+			select tc.*,tp.PoundageValue from
+			TB_ChargeInfo as tc
+			,TB_ClientInfo as tci
+			,TB_Poundage as tp
+			,TB_Area as ta
+			where
+			tc.OneOffConnectFees is not null
+			and
+			tc.Payment_by_Year = #Year#
+			and
+			tc.Payment_by_Month BETWEEN #startMonth# and #endMonth#
+			and
+			tc.ClientOperationID = tci.ClientOperationID
+			and
+			tci.AreaName = #Area_ID#
+			and
+			tp.PoundageValue = ta.Poundage
+			and
+			ta.Area_ID = tci.AreaName
+			and
+			tci.ClientState !='1'
+			
+		</select>
+		
+		<select id="Find_HKLB" resultMap ="SelectResult1" parameterClass="ChargeInfo">
+			select tc.*,tp.PoundageValue from
+			TB_ChargeInfo as tc
+			,TB_ClientInfo as tci
+			,TB_Poundage as tp
+			,TB_Area as ta
+			where
+			tc.Payment_by_Year = #Year#
+			and
+			tc.Payment_by_Month BETWEEN #startMonth# and #endMonth#
+			and
+			tc.ClientOperationID = tci.ClientOperationID
+			and
+			tci.AreaName = #Area_ID#
+			and
+			tc.PaymentMonth !='-1'
+			and
+			tp.PoundageValue = ta.Poundage
+			and
+			ta.Area_ID = tci.AreaName
+			and
+			tci.ClientState !='1'
+		</select>
+		<select id="Find_HKDCBLCW" resultMap ="SelectResult1" parameterClass="ChargeInfo">
+			select tc.*,tp.PoundageValue from
+			TB_ChargeInfo as tc
+			,TB_ClientInfo as tci
+			,TB_Poundage as tp
+			,TB_Area as ta
+			where
+			tc.Payment_by_Year = #Year#
+			and
+			tc.Payment_by_Month BETWEEN #startMonth# and #endMonth#
+			and
+			tc.ClientOperationID = tci.ClientOperationID
+			and
+			tci.AreaName = #Area_ID#
+			and
+			tc.PaymentMonth !='-1'
+			and
+			tp.PoundageValue = ta.Poundage
+			and
+			ta.Area_ID = tci.AreaName
+			and
+			tc.Now_Poundage not like tp.PoundageValue
+			and
+			tci.ClientState !='1'
+		</select>
+		
+		<select id="Find_YCXFCBLCW" resultMap ="SelectResult1" parameterClass="ChargeInfo">
+			select tc.*,tp.PoundageValue from
+			TB_ChargeInfo as tc
+			,TB_ClientInfo as tci
+			,TB_Poundage as tp
+			,TB_Area as ta
+			where
+			tc.OneOffConnectFees is not null
+			and
+			tc.Payment_by_Year = #Year#
+			and
+			tc.Payment_by_Month BETWEEN  #startMonth# and #endMonth#
+			and
+			tc.ClientOperationID = tci.ClientOperationID
+			and
+			tci.AreaName =  #Area_ID#
+			and
+			tp.PoundageValue = ta.Poundage			
+			and
+			ta.Area_ID = tci.AreaName
+			and
+			tc.Now_Poundage not like tp.PoundageValue
+			and
+			tci.ClientState !='1'
+		</select>
+		<select id="Find_NJFCBICW" resultMap ="SelectResult1" parameterClass="ChargeInfo">
+			select tc.*,tp.PoundageValue from
+			TB_ChargeInfo as tc
+			,TB_ClientInfo as tci
+			,TB_Poundage as tp
+			,TB_Area as ta
+			where
+			tc.Payment_by_Year = #Year#
+			and
+			tc.Payment_by_Month BETWEEN #startMonth# and #endMonth#
+			and
+			tc.ClientOperationID = tci.ClientOperationID
+			and
+			tci.AreaName = #Area_ID#
+			and
+			tc.FirstPayment is not null
+			and
+			tp.PoundageValue = ta.Poundage
+			and
+			ta.Area_ID = tci.AreaName
+			and
+			tc.Now_Poundage not like tp.PoundageValue
+			and
+			tci.ClientState !='1'
+		</select>
+		
+		<select id="selectCharge_by_id" resultMap="SelectResult">
+			select * from TB_ChargeInfo
+			where
+			Charge_ID = #value#
+			
+		</select>
+		
+		<update id="Update_Charge_year" parameterClass ="ChargeInfo">
+			update  TB_ChargeInfo set
+			ClientName=#ClientName#
+			,ClientOperationID=#ClientOperationID#
+			,Now_Poundage=#Now_Poundage#
+			,FirstPayment=#FirstPayment#
+			,PaymentYear=#PaymentYear#
+			,Payment_by_Year=#Payment_by_Year#
+			,Payment_by_Month=#Payment_by_Month#
+			,RegisterMane=#RegisterMane#
+			,UseCyc=#UseCyc#
+			,RegisterTime = #RegisterTime#
+			where
+			Charge_ID = #Charge_ID#
+		</update>
+		
+		<update id="Update_Charge_one_0r_move" parameterClass ="ChargeInfo">
+			update  TB_ChargeInfo set
+			ClientName=#ClientName#
+			,ClientOperationID=#ClientOperationID#
+			,Now_Poundage=#Now_Poundage#
+			
+			,Payment_by_Year=#Payment_by_Year#
+			,Payment_by_Month=#Payment_by_Month#
+			,RegisterMane=#RegisterMane#
+			,MovePay=#MovePay#
+			,OneOffConnectFees=#OneOffConnectFees#
+			,RegisterTime = #RegisterTime#
+			where
+			Charge_ID = #Charge_ID#
+		</update>
+		<update id="Update_Charge_BackMonthPay" parameterClass ="ChargeInfo">
+			update  TB_ChargeInfo set
+			ClientName=#ClientName#
+			,ClientOperationID=#ClientOperationID#
+			,Now_Poundage=#Now_Poundage#
+			,PaymentMonth=#PaymentMonth#
+			,Payment_by_Year=#Payment_by_Year#
+			,Payment_by_Month=#Payment_by_Month#
+			,RegisterMane=#RegisterMane#
+			,UseCyc=#UseCyc#
+			,RegisterTime = #RegisterTime#
+			where
+			Charge_ID = #Charge_ID#
+		</update>
+		<delete id="delete_Charge_ID">
+		    delete from TB_ChargeInfo
+		    where
+		    Charge_ID = #value#
+		</delete>
+		
+		<select id="selectpay_infonj" parameterClass="ChargeInfo" resultMap ="SelectResult">
+			select * 
+			from TB_ChargeInfo
+			where
+			ClientOperationID = #ClientOperationID#
+			and
+			Payment_by_Year=#Payment_by_Year#
+			and
+			Payment_by_Month=#Payment_by_Month#
+			and
+			FirstPayment is not null			
+		
+		</select>
+		<select id="selectpay_infoyj" parameterClass="ChargeInfo" resultMap ="SelectResult">
+			select * from TB_ChargeInfo
+			where
+			ClientOperationID = #ClientOperationID#
+			and
+			Payment_by_Year=#Payment_by_Year#
+			and
+			Payment_by_Month=#Payment_by_Month#
+			and
+			PaymentMonth !='-1'	
+		
+		</select>
+		<select id="selectpay_infoycx" parameterClass="ChargeInfo" resultMap ="SelectResult">
+			select * from TB_ChargeInfo
+			where
+			ClientOperationID = #ClientOperationID#
+			and
+			Payment_by_Year=#Payment_by_Year#
+			and
+			Payment_by_Month=#Payment_by_Month#
+			and
+			OneOffConnectFees is not null
+		</select>
+		<select id="selectpay_infoqyf" parameterClass="ChargeInfo" resultMap ="SelectResult">
+			select * from TB_ChargeInfo
+			where
+			ClientOperationID = #ClientOperationID#
+			and
+			Payment_by_Year=#Payment_by_Year#
+			and
+			Payment_by_Month=#Payment_by_Month#
+			and
+			MovePay is not null
+		</select>
+		
+		<select id="selectChargeinfo_by_month" resultMap ="SelectResult2" parameterClass="ChargeInfo">
+			select
+			DISTINCT tc.Client_ID
+			,tc.ClientName
+			,tc.ClientOperationID
+			,tc.ClientPhone
+			,tc.ClientAddress
+			,tc.ClientAccounts
+			,tc.ClientPassword
+			,tc.AcceptDate
+			,tc.RunDate
+			,tc.IDCard
+			,tc.ProductType
+			,tc.CircsDescribe
+			,tc.Remark
+			,tc.AreaName
+			,tc.AvDate
+			,tc.ClientListID
+			
+			,tc.RegisterMane
+			,tc.RegisterTime
+			,tc.ClientState
+			from
+			TB_ClientInfo tc,TB_ChargeInfo tci
+
+			where
+
+			tc.ClientOperationID = tci.ClientOperationID
+			and
+			(tci.Payment_by_Year = #Year#
+			and
+			tci.Payment_by_Month = #startMonth#)
+			and
+			tc.ClientState = '0'
+		</select>
+		
+		<select id="selectChargeinfo_by_poundagewrong" resultMap ="SelectResult2">
+			select
+			DISTINCT tc.Client_ID
+			,tc.ClientName
+			,tc.ClientOperationID
+			,tc.ClientPhone
+			,tc.ClientAddress
+			,tc.ClientAccounts
+			,tc.ClientPassword
+			,tc.AcceptDate
+			,tc.RunDate
+			,tc.IDCard
+			,tc.ProductType
+			,tc.CircsDescribe
+			,tc.Remark
+			,tc.AreaName
+			,tc.AvDate
+			,tc.ClientListID
+			
+			,tc.RegisterMane
+			,tc.RegisterTime
+			,tc.ClientState
+			from
+			TB_ClientInfo tc,TB_ChargeInfo tci,TB_Area ta
+
+			where
+
+			tc.ClientOperationID = tci.ClientOperationID
+			and
+			tci.Payment_by_Year = #value#
+			and
+			tc.AreaName = ta.Area_ID
+			and
+			tci.Now_Poundage !=ta.Poundage
+			and
+			tc.ClientState = '0'
+		</select>
+		
+		<select id="selectChargeinfo_by_no_pay_year" resultMap ="SelectResult2">
+			select
+			DISTINCT tc.Client_ID
+			,tc.ClientName
+			,tc.ClientOperationID
+			,tc.ClientPhone
+			,tc.ClientAddress
+			,tc.ClientAccounts
+			,tc.ClientPassword
+			,tc.AcceptDate
+			,tc.RunDate
+			,tc.IDCard
+			,tc.ProductType
+			,tc.CircsDescribe
+			,tc.Remark
+			,tc.AreaName
+			,tc.AvDate
+			,tc.ClientListID
+			
+			,tc.RegisterMane
+			,tc.RegisterTime
+			,tc.ClientState
+			from
+			TB_ClientInfo tc,TB_ChargeInfo tci
+
+			where
+
+			tc.ClientOperationID != tci.ClientOperationID
+			and
+			tci.Payment_by_Year = #value#
+			and
+			tc.ClientState = '0'
+		</select>
+		
+		<select id="selectChargeinfo_by_str" resultMap ="SelectResult2" parameterClass="ChargeInfo">
+			select
+			DISTINCT tc.Client_ID
+			,tc.ClientName
+			,tc.ClientOperationID
+			,tc.ClientPhone
+			,tc.ClientAddress
+			,tc.ClientAccounts
+			,tc.ClientPassword
+			,tc.AcceptDate
+			,tc.RunDate
+			,tc.IDCard
+			,tc.ProductType
+			,tc.CircsDescribe
+			,tc.Remark
+			,tc.AreaName
+			,tc.AvDate
+			,tc.ClientListID
+			
+			,tc.RegisterMane
+			,tc.RegisterTime
+			,tc.ClientState
+			from
+			TB_ClientInfo tc,TB_ChargeInfo tci
+
+			where
+
+			tc.ClientOperationID = tci.ClientOperationID
+			and
+			tci.Payment_by_Year = #Year#
+			and
+			(tc.ClientName like #str# or tc.ClientOperationID like #str#)
+			and
+			tc.ClientState = '0'
+		</select>
+		<select id="selectChargeinfo_by_MA" resultMap ="SelectResult2" parameterClass="ChargeInfo">
+			select
+			DISTINCT tc.Client_ID
+			,tc.ClientName
+			,tc.ClientOperationID
+			,tc.ClientPhone
+			,tc.ClientAddress
+			,tc.ClientAccounts
+			,tc.ClientPassword
+			,tc.AcceptDate
+			,tc.RunDate
+			,tc.IDCard
+			,tc.ProductType
+			,tc.CircsDescribe
+			,tc.Remark
+			,tc.AreaName
+			,tc.AvDate
+			,tc.ClientListID
+			
+			,tc.RegisterMane
+			,tc.RegisterTime
+			,tc.ClientState
+			from
+			TB_ClientInfo tc,TB_ChargeInfo tci
+
+			where
+
+			tc.ClientOperationID = tci.ClientOperationID
+			and
+			(tci.Payment_by_Year = #Year#
+			and
+			tci.Payment_by_Month = #startMonth#)
+			and 
+			tc.AreaName = #Area_ID#
+			and
+			tc.ClientState = '0'
+		</select>
+		
+		<select id="selectChargeinfo_by_MS" resultMap ="SelectResult2" parameterClass="ChargeInfo">
+			select
+			DISTINCT tc.Client_ID
+			,tc.ClientName
+			,tc.ClientOperationID
+			,tc.ClientPhone
+			,tc.ClientAddress
+			,tc.ClientAccounts
+			,tc.ClientPassword
+			,tc.AcceptDate
+			,tc.RunDate
+			,tc.IDCard
+			,tc.ProductType
+			,tc.CircsDescribe
+			,tc.Remark
+			,tc.AreaName
+			,tc.AvDate
+			,tc.ClientListID
+			
+			,tc.RegisterMane
+			,tc.RegisterTime
+			,tc.ClientState
+			from
+			TB_ClientInfo tc,TB_ChargeInfo tci,TB_Area ta
+
+			where
+
+			tc.ClientOperationID = tci.ClientOperationID
+			and
+			(tci.Payment_by_Year = #Year#
+			and
+			tci.Payment_by_Month = #startMonth#)
+			and
+			tc.AreaName = ta.Area_ID
+			and
+			tci.Now_Poundage !=ta.Poundage
+			and
+			tc.ClientState = '0'
+		</select>
+		
+		<select id="selectChargeinfo_by_MStr" resultMap ="SelectResult2" parameterClass="ChargeInfo">
+			select
+			DISTINCT tc.Client_ID
+			,tc.ClientName
+			,tc.ClientOperationID
+			,tc.ClientPhone
+			,tc.ClientAddress
+			,tc.ClientAccounts
+			,tc.ClientPassword
+			,tc.AcceptDate
+			,tc.RunDate
+			,tc.IDCard
+			,tc.ProductType
+			,tc.CircsDescribe
+			,tc.Remark
+			,tc.AreaName
+			,tc.AvDate
+			,tc.ClientListID
+			
+			,tc.RegisterMane
+			,tc.RegisterTime
+			,tc.ClientState
+			from
+			TB_ClientInfo tc,TB_ChargeInfo tci
+
+			where
+
+			tc.ClientOperationID = tci.ClientOperationID
+			and
+			(tci.Payment_by_Year = #Year#
+			and
+			tci.Payment_by_Month = #startMonth#)
+			and
+			(tc.ClientName like #str# or tc.ClientOperationID like #str#)
+			and
+			tc.ClientState = '0'
+		</select>
+		
+		<select id="selectChargeinfo_by_AS1" resultMap ="SelectResult2" parameterClass="ChargeInfo">
+			select
+			DISTINCT tc.Client_ID
+			,tc.ClientName
+			,tc.ClientOperationID
+			,tc.ClientPhone
+			,tc.ClientAddress
+			,tc.ClientAccounts
+			,tc.ClientPassword
+			,tc.AcceptDate
+			,tc.RunDate
+			,tc.IDCard
+			,tc.ProductType
+			,tc.CircsDescribe
+			,tc.Remark
+			,tc.AreaName
+			,tc.AvDate
+			,tc.ClientListID
+			
+			,tc.RegisterMane
+			,tc.RegisterTime
+			,tc.ClientState
+			from
+			TB_ClientInfo tc,TB_ChargeInfo tci,TB_Area ta
+
+			where
+
+			tc.ClientOperationID = tci.ClientOperationID
+			and
+			tci.Payment_by_Year = #Year#
+			and
+			tc.AreaName = ta.Area_ID
+			and
+			tci.Now_Poundage !=ta.Poundage
+			and
+			tc.AreaName =#Area_ID#
+			and
+			tc.ClientState = '0'
+		</select>
+		
+		<select id="selectChargeinfo_by_AS2" resultMap ="SelectResult2" parameterClass="ChargeInfo">
+			select
+			DISTINCT tc.Client_ID
+			,tc.ClientName
+			,tc.ClientOperationID
+			,tc.ClientPhone
+			,tc.ClientAddress
+			,tc.ClientAccounts
+			,tc.ClientPassword
+			,tc.AcceptDate
+			,tc.RunDate
+			,tc.IDCard
+			,tc.ProductType
+			,tc.CircsDescribe
+			,tc.Remark
+			,tc.AreaName
+			,tc.AvDate
+			,tc.ClientListID
+			
+			,tc.RegisterMane
+			,tc.RegisterTime
+			,tc.ClientState
+			from
+			TB_ClientInfo tc
+
+			where
+
+			tc.ClientOperationID not in
+			(SELECT tci.ClientOperationID from TB_ChargeInfo tci where tci.Payment_by_Year = #Year#)			
+			and
+			tc.AreaName =#Area_ID#
+			and
+			tc.ClientState = '0'
+		</select>
+		
+		<select id="selectChargeinfo_by_AStr" resultMap ="SelectResult2" parameterClass="ChargeInfo">
+			select
+			DISTINCT tc.Client_ID
+			,tc.ClientName
+			,tc.ClientOperationID
+			,tc.ClientPhone
+			,tc.ClientAddress
+			,tc.ClientAccounts
+			,tc.ClientPassword
+			,tc.AcceptDate
+			,tc.RunDate
+			,tc.IDCard
+			,tc.ProductType
+			,tc.CircsDescribe
+			,tc.Remark
+			,tc.AreaName
+			,tc.AvDate
+			,tc.ClientListID
+			
+			,tc.RegisterMane
+			,tc.RegisterTime
+			,tc.ClientState
+			from
+			TB_ClientInfo tc,TB_ChargeInfo tci
+
+			where
+
+			tc.ClientOperationID = tci.ClientOperationID
+			and
+			tci.Payment_by_Year = #Year#
+			and
+			(tc.ClientName like #str# or tc.ClientOperationID like #str#)
+			and
+			and
+			tc.AreaName =#Area_ID#
+			and
+			tc.ClientState = '0'
+		</select>
+		
+		<select id="selectChargeinfo_by_SS1" resultMap ="SelectResult2" parameterClass="ChargeInfo">
+			select
+			DISTINCT tc.Client_ID
+			,tc.ClientName
+			,tc.ClientOperationID
+			,tc.ClientPhone
+			,tc.ClientAddress
+			,tc.ClientAccounts
+			,tc.ClientPassword
+			,tc.AcceptDate
+			,tc.RunDate
+			,tc.IDCard
+			,tc.ProductType
+			,tc.CircsDescribe
+			,tc.Remark
+			,tc.AreaName
+			,tc.AvDate
+			,tc.ClientListID
+			
+			,tc.RegisterMane
+			,tc.RegisterTime
+			,tc.ClientState
+			from
+			TB_ClientInfo tc,TB_ChargeInfo tci,TB_Area ta
+
+			where
+
+			tc.ClientOperationID = tci.ClientOperationID
+			and
+			tci.Payment_by_Year = #Year#
+			and
+			tc.AreaName = ta.Area_ID
+			and
+			tci.Now_Poundage !=ta.Poundage
+			and
+			(tc.ClientName like #str# or tc.ClientOperationID like #str#)
+			and
+			tc.ClientState = '0'
+		</select>
+		
+		<select id="selectChargeinfo_by_SS2" resultMap ="SelectResult2" parameterClass="ChargeInfo">
+			select
+			DISTINCT tc.Client_ID
+			,tc.ClientName
+			,tc.ClientOperationID
+			,tc.ClientPhone
+			,tc.ClientAddress
+			,tc.ClientAccounts
+			,tc.ClientPassword
+			,tc.AcceptDate
+			,tc.RunDate
+			,tc.IDCard
+			,tc.ProductType
+			,tc.CircsDescribe
+			,tc.Remark
+			,tc.AreaName
+			,tc.AvDate
+			,tc.ClientListID
+			
+			,tc.RegisterMane
+			,tc.RegisterTime
+			,tc.ClientState
+			from
+			TB_ClientInfo tc
+
+			where
+
+			tc.ClientOperationID not in
+			(SELECT tci.ClientOperationID from TB_ChargeInfo tci where tci.Payment_by_Year = #Year#)			
+			and
+			(tc.ClientName like #str# or tc.ClientOperationID like #str#)
+			and
+			tc.ClientState = '0'
+		</select>
+		
+		<select id="selectChargeinfo_by_MAS1" resultMap ="SelectResult2" parameterClass="ChargeInfo">
+			select
+			DISTINCT tc.Client_ID
+			,tc.ClientName
+			,tc.ClientOperationID
+			,tc.ClientPhone
+			,tc.ClientAddress
+			,tc.ClientAccounts
+			,tc.ClientPassword
+			,tc.AcceptDate
+			,tc.RunDate
+			,tc.IDCard
+			,tc.ProductType
+			,tc.CircsDescribe
+			,tc.Remark
+			,tc.AreaName
+			,tc.AvDate
+			,tc.ClientListID
+			
+			,tc.RegisterMane
+			,tc.RegisterTime
+			,tc.ClientState
+			from
+			TB_ClientInfo tc,TB_ChargeInfo tci,TB_Area ta
+
+			where
+
+			tc.ClientOperationID = tci.ClientOperationID
+			and
+			(tci.Payment_by_Year = #Year#
+			and
+			tci.Payment_by_Month = #startMonth#)
+			and
+			tc.AreaName = ta.Area_ID
+			and
+			tc.AreaName = #Area_ID#
+			and
+			tci.Now_Poundage !=ta.Poundage
+			and
+			tc.ClientState = '0'
+		</select>
+		
+		<select id="selectChargeinfo_by_MAS2" resultMap ="SelectResult2" parameterClass="ChargeInfo">
+			select
+			DISTINCT tc.Client_ID
+			,tc.ClientName
+			,tc.ClientOperationID
+			,tc.ClientPhone
+			,tc.ClientAddress
+			,tc.ClientAccounts
+			,tc.ClientPassword
+			,tc.AcceptDate
+			,tc.RunDate
+			,tc.IDCard
+			,tc.ProductType
+			,tc.CircsDescribe
+			,tc.Remark
+			,tc.AreaName
+			,tc.AvDate
+			,tc.ClientListID
+			
+			,tc.RegisterMane
+			,tc.RegisterTime
+			,tc.ClientState
+			from
+			TB_ClientInfo tc,TB_ChargeInfo tci
+
+			where
+
+			tc.ClientOperationID != tci.ClientOperationID
+			and
+			(tci.Payment_by_Year = #Year#
+			and
+			tci.Payment_by_Month = #startMonth#)
+			and
+			(tc.ClientName like #str# or tc.ClientOperationID like #str#)
+			and
+			tc.ClientState = '0'
+		</select>
+		<select id="selectChargeinfo_by_MAStr" resultMap ="SelectResult2" parameterClass="ChargeInfo">
+			select
+			DISTINCT tc.Client_ID
+			,tc.ClientName
+			,tc.ClientOperationID
+			,tc.ClientPhone
+			,tc.ClientAddress
+			,tc.ClientAccounts
+			,tc.ClientPassword
+			,tc.AcceptDate
+			,tc.RunDate
+			,tc.IDCard
+			,tc.ProductType
+			,tc.CircsDescribe
+			,tc.Remark
+			,tc.AreaName
+			,tc.AvDate
+			,tc.ClientListID
+			
+			,tc.RegisterMane
+			,tc.RegisterTime
+			,tc.ClientState
+			from
+			TB_ClientInfo tc,TB_ChargeInfo tci
+
+			where
+
+			tc.ClientOperationID = tci.ClientOperationID
+			and
+			(tci.Payment_by_Year = #Year#
+			and
+			tci.Payment_by_Month = #startMonth#)
+			and
+			(tc.ClientName like #str# or tc.ClientOperationID like #str#)
+			and
+			tc.AreaName = #Area_ID#
+			and
+			tc.ClientState = '0'
+			
+		</select>
+		<select id="selectChargeinfo_by_MSS1" resultMap ="SelectResult2" parameterClass="ChargeInfo">
+			select
+			DISTINCT tc.Client_ID
+			,tc.ClientName
+			,tc.ClientOperationID
+			,tc.ClientPhone
+			,tc.ClientAddress
+			,tc.ClientAccounts
+			,tc.ClientPassword
+			,tc.AcceptDate
+			,tc.RunDate
+			,tc.IDCard
+			,tc.ProductType
+			,tc.CircsDescribe
+			,tc.Remark
+			,tc.AreaName
+			,tc.AvDate
+			,tc.ClientListID
+			
+			,tc.RegisterMane
+			,tc.RegisterTime
+			,tc.ClientState
+			from
+			TB_ClientInfo tc,TB_ChargeInfo tci,TB_Area ta
+
+			where
+
+			tc.ClientOperationID = tci.ClientOperationID
+			and
+			(tci.Payment_by_Year = #Year#
+			and
+			tci.Payment_by_Month = #startMonth#)
+			and
+			tc.AreaName = #Area_ID#
+			and
+			tci.Now_Poundage !=ta.Poundage
+			and
+			(tc.ClientName like #str# or tc.ClientOperationID like #str#)
+			and
+			tc.ClientState = '0'
+		</select>
+		
+		<select id="selectChargeinfo_by_ASS1" resultMap ="SelectResult2" parameterClass="ChargeInfo">
+			select
+			DISTINCT tc.Client_ID
+			,tc.ClientName
+			,tc.ClientOperationID
+			,tc.ClientPhone
+			,tc.ClientAddress
+			,tc.ClientAccounts
+			,tc.ClientPassword
+			,tc.AcceptDate
+			,tc.RunDate
+			,tc.IDCard
+			,tc.ProductType
+			,tc.CircsDescribe
+			,tc.Remark
+			,tc.AreaName
+			,tc.AvDate
+			,tc.ClientListID
+			
+			,tc.RegisterMane
+			,tc.RegisterTime
+			,tc.ClientState
+			from
+			TB_ClientInfo tc,TB_ChargeInfo tci,TB_Area ta
+
+			where
+
+			tc.ClientOperationID = tci.ClientOperationID
+			and
+			tci.Payment_by_Year = #Year#
+			and
+			tc.AreaName = ta.Area_ID
+			and
+			tci.Now_Poundage !=ta.Poundage
+			and
+			(tc.ClientName like #str# or tc.ClientOperationID like #str#)
+			and
+			tc.AreaName = #Area_ID#
+			and
+			tc.ClientState = '0'
+		</select>
+		
+		<select id="selectChargeinfo_by_ASS2" resultMap ="SelectResult2" parameterClass="ChargeInfo">
+			select
+			DISTINCT tc.Client_ID
+			,tc.ClientName
+			,tc.ClientOperationID
+			,tc.ClientPhone
+			,tc.ClientAddress
+			,tc.ClientAccounts
+			,tc.ClientPassword
+			,tc.AcceptDate
+			,tc.RunDate
+			,tc.IDCard
+			,tc.ProductType
+			,tc.CircsDescribe
+			,tc.Remark
+			,tc.AreaName
+			,tc.AvDate
+			,tc.ClientListID
+			
+			,tc.RegisterMane
+			,tc.RegisterTime
+			,tc.ClientState
+			from
+			TB_ClientInfo tc
+
+			where
+
+			tc.ClientOperationID not in
+			(SELECT tci.ClientOperationID from TB_ChargeInfo tci where tci.Payment_by_Year = #Year#)
+			
+			and
+			(tc.ClientName like #str# or tc.ClientOperationID like #str#)
+			and
+			tc.AreaName = #Area_ID#
+			and
+			tc.ClientState = '0'
+		</select>
+		
+		<select id="selectChargeinfo_by_MASS1" resultMap ="SelectResult2" parameterClass="ChargeInfo">
+			select
+			DISTINCT tc.Client_ID
+			,tc.ClientName
+			,tc.ClientOperationID
+			,tc.ClientPhone
+			,tc.ClientAddress
+			,tc.ClientAccounts
+			,tc.ClientPassword
+			,tc.AcceptDate
+			,tc.RunDate
+			,tc.IDCard
+			,tc.ProductType
+			,tc.CircsDescribe
+			,tc.Remark
+			,tc.AreaName
+			,tc.AvDate
+			,tc.ClientListID
+			
+			,tc.RegisterMane
+			,tc.RegisterTime
+			,tc.ClientState
+			from
+			TB_ClientInfo tc,TB_ChargeInfo tci,TB_Area ta
+
+			where
+
+			tc.ClientOperationID = tci.ClientOperationID
+			and
+			(tci.Payment_by_Year = #Year#
+			and
+			tci.Payment_by_Month = #startMonth#)
+			and
+			tc.AreaName = ta.Area_ID
+			and
+			tci.Now_Poundage !=ta.Poundage
+			and
+			(tc.ClientName like #str# or tc.ClientOperationID like #str#)
+			and
+			tc.AreaName = #Area_ID#
+			and
+			tc.ClientState = '0'
+		</select>
+		<delete id="delete_Chargeinfo_by_YearAndMonth"  parameterClass="ChargeInfo">
+			delete from TB_ChargeInfo
+			where
+			(Payment_by_Year = #Payment_by_Year#
+			and
+			Payment_by_Month = #Payment_by_Month#)
+		</delete>
+		
+		<select id="jfnotintlist1" parameterClass="ChargeInfo" resultMap="SelectResult">
+			select * from
+			TB_ChargeInfo
+			where
+			(ClientOperationID NOT IN
+			(SELECT ClientOperationID
+			FROM TB_ClientInfo))
+			and Payment_by_Year = #Payment_by_Year#
+		</select>
+		<select id="jfnotintlist2" parameterClass="ChargeInfo" resultMap="SelectResult">
+			select * from
+			TB_ChargeInfo
+			where
+			(ClientOperationID NOT IN
+			(SELECT ClientOperationID
+			FROM TB_ClientInfo))
+			and Payment_by_Year = #Payment_by_Year#
+			and Payment_by_Month = #Payment_by_Month#
+		</select>
+		<select id="jfnotintlist3" parameterClass="ChargeInfo" resultMap="SelectResult">
+			select * from
+			TB_ChargeInfo
+			where
+			(ClientOperationID NOT IN
+			(SELECT ClientOperationID
+			FROM TB_ClientInfo))
+			and Payment_by_Year = #Payment_by_Year#
+			and (ClientName like #str# or ClientOperationID like #str#)
+		</select>
+		<select id="jfnotintlist4" parameterClass="ChargeInfo" resultMap="SelectResult">
+			select * from
+			TB_ChargeInfo
+			where
+			(ClientOperationID NOT IN
+			(SELECT ClientOperationID
+			FROM TB_ClientInfo))
+			and Payment_by_Year = #Payment_by_Year#
+			and Payment_by_Month = #Payment_by_Month#
+			and (ClientName like #str# or ClientOperationID like #str#)
+		</select>
+		
+		<update id="updateClientOperationID" parameterClass="ChargeInfo">
+			update TB_ChargeInfo set
+			ClientOperationID = #ClientOperationID#
+			,ClientName = #ClientName#
+			where
+			Charge_ID = #Charge_ID#
+		</update>
+		
+		<select id="fzlist1" parameterClass="ChargeInfo" resultMap="SelectResult">
+			select * from
+			TB_ChargeInfo
+			where
+			(ClientOperationID NOT IN
+			(SELECT ClientOperationID
+			FROM TB_ClientInfo))
+			and Payment_by_Year = #Payment_by_Year#
+			
+			and ( 0>cast(isnull(OneOffConnectFees,0) as int )
+			or 0>cast(isnull(MovePay,0) as int )
+			or (( 0>cast(isnull(PaymentMonth,0) as float )
+			or 0>cast(isnull(PaymentYear,0) as float )) 
+			and cast(isnull(PaymentYear,0) as float ) != -1 and cast(isnull(PaymentMonth,0) as float ) != -1))
+		</select>
+		<select id="fzlist2" parameterClass="ChargeInfo" resultMap="SelectResult">
+			select * from
+			TB_ChargeInfo
+			where
+			(ClientOperationID NOT IN
+			(SELECT ClientOperationID
+			FROM TB_ClientInfo))
+			and Payment_by_Year = #Payment_by_Year#
+			and Payment_by_Month = #Payment_by_Month#
+			
+			and ( 0>cast(isnull(OneOffConnectFees,0) as int )
+			or 0>cast(isnull(MovePay,0) as int )
+			or (( 0>cast(isnull(PaymentMonth,0) as float )
+			or 0>cast(isnull(PaymentYear,0) as float )) 
+			and cast(isnull(PaymentYear,0) as float ) != -1 and cast(isnull(PaymentMonth,0) as float ) != -1))
+		</select>
+		<select id="fzlist3" parameterClass="ChargeInfo" resultMap="SelectResult">
+			select * from
+			TB_ChargeInfo
+			where
+			(ClientOperationID NOT IN
+			(SELECT ClientOperationID
+			FROM TB_ClientInfo))
+			and Payment_by_Year = #Payment_by_Year#
+			and (ClientName like #str# or ClientOperationID like #str#)
+			
+			and ( 0>cast(isnull(OneOffConnectFees,0) as int )
+			or 0>cast(isnull(MovePay,0) as int )
+			or (( 0>cast(isnull(PaymentMonth,0) as float )
+			or 0>cast(isnull(PaymentYear,0) as float ) )
+			and cast(isnull(PaymentYear,0) as float ) != -1 and cast(isnull(PaymentMonth,0) as float ) != -1))
+		</select>
+		<select id="fzlist4" parameterClass="ChargeInfo" resultMap="SelectResult">
+			select * from
+			TB_ChargeInfo
+			where
+			(ClientOperationID NOT IN
+			(SELECT ClientOperationID
+			FROM TB_ClientInfo))
+			and Payment_by_Year = #Payment_by_Year#
+			and Payment_by_Month = #Payment_by_Month#
+			and (ClientName like #str# or ClientOperationID like #str#)
+			
+			and ( 0>cast(isnull(OneOffConnectFees,0) as int )
+			or 0>cast(isnull(MovePay,0) as int )
+			or (( 0>cast(isnull(PaymentMonth,0) as float )
+			or 0>cast(isnull(PaymentYear,0) as float ) ) 
+			and cast(isnull(PaymentYear,0) as float ) != -1 and cast(isnull(PaymentMonth,0) as float ) != -1))
+		</select>
+		
+		<select id="select_ChargeStr" resultMap="SelectResult">
+			select * from
+			TB_ChargeInfo
+			where
+			(ClientName like #str# or ClientOperationID like #str#)
+		</select>
+	</statements>
+</sqlMap>

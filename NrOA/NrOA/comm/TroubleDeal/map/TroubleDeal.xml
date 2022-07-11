@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<sqlMap namespace="TroubleDeal" xmlns="http://ibatis.apache.org/mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<alias>
+		<typeAlias alias="TroubleDeal" type="NrOA.TroubleDeal.em.TroubleDeal" />
+	</alias>
+	<resultMaps>
+		<resultMap id="SelectResult" class="TroubleDeal">
+            <result property="Trouble_id" column="Trouble_id" />
+            <result property="Trouble_nb" column="Trouble_nb" />
+            <result property="Trouble_date" column="Trouble_date" />
+            <result property="Proposer" column="Proposer" />
+            <result property="ProposerAddress" column="ProposerAddress" />
+            <result property="ProposerPhone" column="ProposerPhone" />
+            <result property="Trouble_Describe" column="Trouble_Describe" />
+            <result property="Dispatch_man" column="Dispatch_man" />
+            <result property="Dispatch_date" column="Dispatch_date" />   
+            <result property="Register_man" column="Register_man" />   
+            <result property="Register_date" column="Register_date" />   
+            <result property="DealResult" column="DealResult" />   
+            <result property="Deal_date" column="Deal_date" />   
+            <result property="BackCallContent" column="BackCallContent" />   
+            <result property="state" column="state" />   
+            <result property="OperationID" column="OperationID" />   
+            <result property="Complaints" column="Complaints" />   
+            <result property="Moveinfo" column="Moveinfo" />   
+             <result property="remark" column="remark" />   
+        </resultMap>
+        <resultMap id="SelectResult1" class="TroubleDeal">
+            <result property="Trouble_nb" column="Trouble_nb" />			
+        </resultMap>
+	</resultMaps>
+	<statements>	
+	
+		<insert id="insertTroubleDealDR" parameterClass="TroubleDeal">
+			insert into T_TroubleDeal
+			(Trouble_nb,OperationID,Proposer,Complaints,Trouble_date,Trouble_Describe,ProposerPhone,Moveinfo,remark,Register_man,ProposerAddress)
+			values
+			(#Trouble_nb#,#OperationID#,#Proposer#,#Complaints#,#Trouble_date#,#Trouble_Describe#,#ProposerPhone#,#Moveinfo#,#remark#,#Register_man#,#ProposerAddress#)
+		</insert>
+		<select id="selectTrblist_str" parameterClass="TroubleDeal" resultMap="SelectResult">
+			select * from T_TroubleDeal
+			where 
+			Cast(Trouble_date as datetime)
+			between
+			#startmonth# and #endmonth#
+			and
+			(OperationID like #Proposer# or ProposerAddress like #Proposer# or Trouble_Describe like #Proposer#)
+			and 
+			state = #state#		
+			order by Trouble_id desc
+		</select>
+		<select id="selectTrblist_str1" parameterClass="TroubleDeal" resultMap="SelectResult">
+			select * from T_TroubleDeal
+			where 
+			Cast(Trouble_date as datetime)
+			between
+			#startmonth# and #endmonth#	
+			and 
+			state = #state#			
+			and 
+			Trouble_nb like #Trouble_nb#
+			order by Trouble_id desc
+		</select>
+		<select id="selectTrblist_str11" parameterClass="TroubleDeal" resultMap="SelectResult">
+			select * from T_TroubleDeal
+			where 
+			Cast(Trouble_date as datetime)
+			between
+			#startmonth# and #endmonth#	
+			and 
+			state = #state#			
+			and 
+			Trouble_nb not like 'NR%'
+			order by Trouble_id desc
+		</select>
+		<select id="selectTrblist_str2" parameterClass="TroubleDeal" resultMap="SelectResult">
+			select * from T_TroubleDeal
+			where 
+			Cast(Trouble_date as datetime)
+			between
+			#startmonth# and #endmonth#
+			and
+			(OperationID like #Proposer# or ProposerAddress like #Proposer# or Trouble_Describe like #Proposer#)
+			and 
+			state = #state#			
+			and 
+			Trouble_nb like #Trouble_nb#
+			order by Trouble_id desc
+		</select>
+		<select id="selectTrblist_str22" parameterClass="TroubleDeal" resultMap="SelectResult">
+			select * from T_TroubleDeal
+			where 
+			Cast(Trouble_date as datetime)
+			between
+			#startmonth# and #endmonth#
+			and
+			(OperationID like #Proposer# or ProposerAddress like #Proposer# or Trouble_Describe like #Proposer#)
+			and 
+			state = #state#			
+			and
+			Trouble_nb not like 'NR%'
+			order by Trouble_id desc
+		</select>
+		
+		<select id="selectTrblist" parameterClass="TroubleDeal" resultMap="SelectResult">
+			select * from T_TroubleDeal
+			where
+			Cast(Trouble_date as datetime)
+			between
+			#startmonth# and #endmonth#
+			and 
+			state = #state#			
+			order by Trouble_id desc
+		</select>
+		<delete id="deleteTrbinfo">
+		    delete from T_TroubleDeal
+		    where
+		    Trouble_id = #value#
+		</delete>
+		<select id="selectTrbid" resultMap="SelectResult">
+			select * from T_TroubleDeal
+			where
+			Trouble_id = #value#
+		</select>
+		<update id="UpdateTrbinfo" parameterClass="TroubleDeal">
+			update T_TroubleDeal set
+			Trouble_nb=#Trouble_nb#,
+            Trouble_date=#Trouble_date#,
+            Proposer=#Proposer#,
+            ProposerAddress=#ProposerAddress#,
+            ProposerPhone=#ProposerPhone#,
+            Trouble_Describe=#Trouble_Describe#,
+            Dispatch_man=#Dispatch_man#,
+            Dispatch_date=#Dispatch_date#,
+            Register_man=#Register_man#,
+            Register_date=#Register_date#,
+            DealResult=#DealResult#,
+            Deal_date=#Deal_date#,
+            BackCallContent=#BackCallContent#,
+            state=#state#,
+            OperationID=#OperationID#,
+            Complaints=#Complaints#,
+            Moveinfo=#Moveinfo#,
+            remark=#remark#  
+            where            
+            Trouble_id = #Trouble_id#            
+		</update>
+		
+		<insert id="insertTrbinfo" parameterClass="TroubleDeal">
+			insert into T_TroubleDeal
+			(Trouble_nb,Trouble_date,Proposer,ProposerAddress,ProposerPhone,Trouble_Describe,
+			Dispatch_man,Dispatch_date,Register_man,DealResult,Deal_date,
+			BackCallContent,state,OperationID,Complaints,Moveinfo,remark)
+			values
+			(#Trouble_nb#,#Trouble_date#,#Proposer#,#ProposerAddress#,#ProposerPhone#,#Trouble_Describe#,
+			#Dispatch_man#,#Dispatch_date#,#Register_man#,#DealResult#,#Deal_date#,
+			#BackCallContent#,#state#,#OperationID#,#Complaints#,#Moveinfo#,#remark#)
+		</insert>
+		<select id="selectTrouble_nb" resultMap="SelectResult">
+			select * from T_TroubleDeal
+			where
+			Trouble_nb = #value#
+		</select>
+		<select id="MaxTrouble_nb" resultMap="SelectResult1">
+			select max(Trouble_nb) Trouble_nb from T_TroubleDeal
+			where
+			Trouble_nb like #value#
+		</select>
+		<select id="SelectAllTB" parameterClass="TroubleDeal" resultMap="SelectResult">
+			select * from T_TroubleDeal
+			where
+			(OperationID like #Proposer# or ProposerAddress like #Proposer# or Trouble_Describe like #Proposer#)
+			and 
+			state = #state#		
+			order by Trouble_id desc	
+		</select>
+		<select id="SelectAllTB1" parameterClass="TroubleDeal" resultMap="SelectResult">
+			select * from T_TroubleDeal
+			where
+			state = #state#			
+			order by Trouble_id desc
+		</select>
+		<delete id="deleteTrbinfo_by_RDate">
+			delete from T_TroubleDeal
+			where
+			Register_date like #value#
+			order by Trouble_id desc
+		</delete>
+	</statements>
+</sqlMap>
+

@@ -1,0 +1,63 @@
+CREATE TABLE [dbo].[T_ChargeCollect] (
+  [id] int IDENTITY(1, 1) NOT NULL,
+  [ClientOperationID] varchar(50) COLLATE Chinese_PRC_CI_AS NULL,
+  [Poundage] varchar(50) COLLATE Chinese_PRC_CI_AS NULL,
+  [OneOffConnectFees] varchar(100) COLLATE Chinese_PRC_CI_AS NULL,
+  [MovePay] varchar(100) COLLATE Chinese_PRC_CI_AS NULL,
+  [oneyue] varchar(50) COLLATE Chinese_PRC_CI_AS NULL,
+  [twoyue] varchar(50) COLLATE Chinese_PRC_CI_AS NULL,
+  [threeyue] varchar(50) COLLATE Chinese_PRC_CI_AS NULL,
+  [fouryue] varchar(50) COLLATE Chinese_PRC_CI_AS NULL,
+  [fiveyue] varchar(50) COLLATE Chinese_PRC_CI_AS NULL,
+  [sixyue] varchar(50) COLLATE Chinese_PRC_CI_AS NULL,
+  [sevenyue] varchar(50) COLLATE Chinese_PRC_CI_AS NULL,
+  [eightyue] varchar(50) COLLATE Chinese_PRC_CI_AS NULL,
+  [nineyue] varchar(50) COLLATE Chinese_PRC_CI_AS NULL,
+  [tenyue] varchar(50) COLLATE Chinese_PRC_CI_AS NULL,
+  [elevenyue] varchar(50) COLLATE Chinese_PRC_CI_AS NULL,
+  [twelveyue] varchar(50) COLLATE Chinese_PRC_CI_AS NULL,
+  [remark] varchar(255) COLLATE Chinese_PRC_CI_AS NULL,
+  [year] varchar(10) COLLATE Chinese_PRC_CI_AS NULL,
+  [OMPoundage] varchar(10) COLLATE Chinese_PRC_CI_AS NULL,
+  [onePoundage] varchar(10) COLLATE Chinese_PRC_CI_AS NULL,
+  [twoPoundage] varchar(10) COLLATE Chinese_PRC_CI_AS NULL,
+  [threePoundage] varchar(10) COLLATE Chinese_PRC_CI_AS NULL,
+  [fourPoundage] varchar(10) COLLATE Chinese_PRC_CI_AS NULL,
+  [fivePoundage] varchar(10) COLLATE Chinese_PRC_CI_AS NULL,
+  [sixPoundage] varchar(10) COLLATE Chinese_PRC_CI_AS NULL,
+  [sevenPoundage] varchar(10) COLLATE Chinese_PRC_CI_AS NULL,
+  [eightPoundage] varchar(10) COLLATE Chinese_PRC_CI_AS NULL,
+  [ninePoundage] varchar(10) COLLATE Chinese_PRC_CI_AS NULL,
+  [tenPoundage] varchar(10) COLLATE Chinese_PRC_CI_AS NULL,
+  [elevenPoundage] varchar(10) COLLATE Chinese_PRC_CI_AS NULL,
+  [twelvePoundage] varchar(10) COLLATE Chinese_PRC_CI_AS NULL,
+  [area_id] varchar(50) COLLATE Chinese_PRC_CI_AS NULL,
+  [state] varchar(10) COLLATE Chinese_PRC_CI_AS NULL,
+  PRIMARY KEY CLUSTERED ([id])
+)
+ON [PRIMARY]
+GO
+
+EXEC sp_addextendedproperty 'MS_Description', N'用户业务号', 'user', 'dbo', 'table', 'T_ChargeCollect', 'column', 'ClientOperationID'
+GO
+
+EXEC sp_addextendedproperty 'MS_Description', N'原分成比例', 'user', 'dbo', 'table', 'T_ChargeCollect', 'column', 'Poundage'
+GO
+
+EXEC sp_addextendedproperty 'MS_Description', N'一次性接入费', 'user', 'dbo', 'table', 'T_ChargeCollect', 'column', 'OneOffConnectFees'
+GO
+
+EXEC sp_addextendedproperty 'MS_Description', N'迁移费', 'user', 'dbo', 'table', 'T_ChargeCollect', 'column', 'MovePay'
+GO
+
+EXEC sp_addextendedproperty 'MS_Description', N'备注', 'user', 'dbo', 'table', 'T_ChargeCollect', 'column', 'remark'
+GO
+
+EXEC sp_addextendedproperty 'MS_Description', N'年份', 'user', 'dbo', 'table', 'T_ChargeCollect', 'column', 'year'
+GO
+
+EXEC sp_addextendedproperty 'MS_Description', N'小区编号', 'user', 'dbo', 'table', 'T_ChargeCollect', 'column', 'area_id'
+GO
+
+EXEC sp_addextendedproperty 'MS_Description', N'状态 0-正常 1-异常', 'user', 'dbo', 'table', 'T_ChargeCollect', 'column', 'state'
+GO

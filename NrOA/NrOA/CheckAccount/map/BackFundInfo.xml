@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<sqlMap namespace="BackFundInfo" xmlns="http://ibatis.apache.org/mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<alias>
+		<typeAlias alias="BackFundInfo" type="NrOA.CheckAccount.em.BackFundInfo" />
+	</alias>
+	<resultMaps>
+		<resultMap id="SelectResult" class="BackFundInfo">
+			<result property="BackFund_ID" column="BackFund_ID" />
+			<result property="ClientName" column="ClientName" />
+			<result property="ClientOperationID" column="ClientOperationID" />
+			<result property="BackFund" column="BackFund" />
+			<result property="BackFund_Year" column="BackFund_Year" />
+			<result property="BackFund_Month" column="BackFund_Month" />
+			<result property="RegisterMane" column="RegisterMane" />
+			<result property="RegisterTime" column="RegisterTime" />
+			<result property="Now_Poundage" column="Now_Poundage"/>
+		</resultMap>
+	</resultMaps>
+	<statements>
+		<insert id="BackFundInfoList" parameterClass="BackFundInfo">
+			insert into TB_BackFundInfo
+			(ClientName,ClientOperationID,BackFund,Now_Poundage,BackFund_Year,BackFund_Month,RegisterMane)
+			values
+			(#ClientName#,#ClientOperationID#,#BackFund#,#Now_Poundage#,#BackFund_Year#,#BackFund_Month#,#RegisterMane#)
+		</insert>
+		<update id="update_BackFundInfoList" parameterClass="BackFundInfo">
+			update TB_BackFundInfo set
+			ClientName=#ClientName#
+			,ClientOperationID=#ClientOperationID#
+			,BackFund=#BackFund#
+			,Now_Poundage=#Now_Poundage#
+			,BackFund_Year=#BackFund_Year#
+			,BackFund_Month=#BackFund_Month#
+			,RegisterMane=#RegisterMane#
+			,RegisterTime = #RegisterTime#
+			where
+			ClientOperationID=#ClientOperationID#
+			and
+			BackFund_Year=#BackFund_Year#
+			and
+			BackFund_Month=#BackFund_Month#
+			
+		</update>
+	</statements>
+</sqlMap>

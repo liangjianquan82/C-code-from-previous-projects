@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<sqlMap namespace="t_year_bz" xmlns="http://ibatis.apache.org/mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="t_year_bz" type="NrOA.CheckAccount.em.t_year_bz" />
+  </alias>
+  <resultMaps>
+    <resultMap id="SelectResult" class="t_year_bz">
+      <result property="id" column="id"/>
+      <result property="usernb" column="usernb"/>
+      <result property="t_year" column="t_year"/>
+      <result property="remark" column="remark"/>
+      <result property="type" column="type"/>
+    </resultMap>
+
+  </resultMaps>
+<statements>
+    <!--<select></select>-->
+    <insert id="insert_t_year_bz" parameterClass="t_year_bz">
+      insert into t_year_bz
+      (usernb,t_year,remark,type)
+      values
+      (#usernb#,#t_year#,#remark#,#type#)
+    </insert>
+    <update id="update_t_year_bz_by_year_userid" parameterClass="t_year_bz">
+      update t_year_bz set
+      remark = #remark#,
+      type = #type#
+      where
+      usernb=#usernb#
+      and
+      t_year = #t_year#
+    </update>
+    <delete id="delete_t_year_bz" parameterClass="t_year_bz">
+      delete from insert_t_year_bz
+      where
+      t_year = #t_year#
+    </delete>
+    <select id="select_t_year_bz_by_year_userid" parameterClass="t_year_bz" resultMap="SelectResult">
+    select * from t_year_bz
+    where
+     t_year = #t_year#
+     and 
+     usernb = #usernb#
+    </select>
+  </statements>
+  
+</sqlMap>

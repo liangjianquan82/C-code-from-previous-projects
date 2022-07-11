@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<sqlMap namespace="Duty" xmlns="http://ibatis.apache.org/mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<alias>
+		<typeAlias alias="Duty" type="NrOA.Duty.em.Duty" />
+	</alias>
+	<resultMaps>
+		<resultMap id="SelectResult" class="Duty">
+			<result property="Duty_ID" column="Duty_ID" />
+			<result property="DutyName" column="DutyName" />
+		</resultMap>
+		<resultMap id="SelectResult1" class="Duty">
+			<result property="Duty_ID" column="Duty_ID"/>
+		</resultMap>
+	</resultMaps>
+	<statements>
+		<select id="DutyMaxID" resultMap="SelectResult1">
+			select max(Duty_ID) Duty_ID
+			from TB_Duty
+		</select>
+			
+		<select id="selectAllDuty" resultMap="SelectResult">
+			select * from TB_Duty
+		</select>
+		<select id="select_Duty_id" resultMap="SelectResult">
+			select * from TB_Duty
+			where
+			Duty_ID=#value#
+		</select>
+		<insert id ="insertDuty" parameterClass="Duty">
+			insert into TB_Duty
+			(DutyName,Duty_ID)
+			values
+			(#DutyName#,#Duty_ID#)
+		</insert>
+		<update id="updateDuty" parameterClass="Duty">
+			update TB_Duty set
+			DutyName = #DutyName#
+			where
+			Duty_ID = #Duty_ID#
+			
+		</update>
+	</statements>
+</sqlMap>

@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<sqlMap namespace="Client" xmlns="http://ibatis.apache.org/mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<alias>
+		<typeAlias alias="Client" type="NrOA.Client.em.Client" />
+		<typeAlias alias="Client_Rundate" type="NrOA.Client.em.Client_Rundate" />
+	</alias>
+	<resultMaps>
+		<resultMap id="SelectResult" class="Client">
+			<result property="Client_ID" column="Client_ID"/>
+			<result property="ClientName" column="ClientName"/>
+			<result property="ClientOperationID" column="ClientOperationID"/>
+			<result property="ClientPhone" column="ClientPhone"/>
+			<result property="ClientAddress" column="ClientAddress"/>
+			<result property="ClientAccounts" column="ClientAccounts"/>
+			<result property="ClientPassword" column="ClientPassword"/>
+			<result property="AcceptDate" column="AcceptDate"/>
+			<result property="RunDate" column="RunDate"/>
+			<result property="IDCard" column="IDCard"/>
+			<result property="ProductType" column="ProductType"/>
+			<result property="CircsDescribe" column="CircsDescribe"/>
+			<result property="Remark" column="Remark"/>
+			<result property="AreaName" column="AreaName"/>
+			<result property="AvDate" column="AvDate"/>
+			<result property="ClientListID" column="ClientListID"/>
+			
+			<result property="RegisterMane" column="RegisterMane"/>
+			<result property="RegisterTime" column="RegisterTime"/>
+			
+			<result property="ClientState" column="ClientState"/>
+			
+		</resultMap>
+		<resultMap id="SelectResult1" class="Client">
+			<result property="ClientListID" column="ClientListID"/>
+		</resultMap>
+		
+		<resultMap id="SelectResult2" class="Client_Rundate">
+			
+			<result property="id" column="id"/>
+			<result property="ClientOperationID" column="ClientOperationID"/>
+			<result property="Client_ID" column="Client_ID"/>
+			<result property="Runyear" column="Runyear"/>
+			<result property="Runmonth" column="Runmonth"/>
+			<result property="area_id" column="area_id"/>
+			
+		</resultMap>
+		
+	</resultMaps>
+		
+	<statements>
+	
+		<select id="SelectAllClient" resultMap="SelectResult" >
+			select * from TB_ClientInfo
+			where
+			ClientState = 0
+		</select>
+	
+		<select id="SelectClient_byAreaName" parameterClass ="string" resultMap="SelectResult" >
+			select * from TB_ClientInfo
+			where
+			AreaName = #value#
+			and 
+			ClientState = 0
+			order by Convert(int,ClientListID) ASC
+			
+		</select>
+		<select id="SelectClient_byAreaName1" parameterClass ="string" resultMap="SelectResult" >
+			select TB_ClientInfo.* from TB_ClientInfo,T_Client_Rundate tt
+			where
+			TB_ClientInfo.AreaName = #AreaName#
+			and 
+			TB_ClientInfo.ClientState = #ClientState#
+			and 
+			tt.Runyear = #Year#
+			and
+			cast(tt.Runmonth as int)>= #startMonth#
+			and
+			#endMonth# >= cast(tt.Runmonth as int)
+			and 
+			tt.ClientOperationID = TB_ClientInfo .ClientOperationID
+			order by Convert(int,TB_ClientInfo.ClientListID) ASC
+		</select>
+		
+		<select id="SelectClient_byAreaName2" parameterClass ="string" resultMap="SelectResult" >
+			select tc.* from TB_ClientInfo tc,TB_Area ta,T_Client_Rundate tt
+			where			
+			tc.ClientState = #ClientState#
+			and 
+			tt.Runyear = #Year#
+			and
+			cast(tt.Runmonth as int)>= #startMonth#
+			and
+			#endMonth# >= cast(tt.Runmonth as int)
+			and 
+			tc.AreaName = ta.Area_ID
+			and 
+			ta.Area_state = 0
+			and 
+			tt.ClientOperationID = tc .ClientOperationID
+			order by Convert(int,tc.ClientListID) ASC
+		</select>
+		
+		<select id="SelectClientByFind" parameterClass ="Client" resultMap="SelectResult" >
+			select tc.* from TB_ClientInfo tc ,TB_Area ta
+			where
+			(tc.ClientName like #ClientName# 
+			or
+			tc.ClientOperationID like #ClientName#
+			or
+			tc.ClientAddress like #ClientName#
+			or
+			tc.ClientPhone like #ClientName#)
+			and 
+			tc.ClientState = #ClientState#
+			and 
+			tc.AreaName = ta.Area_ID
+			and 
+			ta.Area_state = 0
+		</select>
+		<select id="SelectClientByFind1" parameterClass ="Client" resultMap="SelectResult" >
+			select tc.* from TB_ClientInfo tc ,TB_Area ta
+			where
+			(tc.ClientName like #ClientName# 
+			or
+			tc.ClientOperationID like #ClientName#
+			or
+			tc.ClientAddress like #ClientName#
+			or
+			tc.ClientPhone like #ClientName#)
+			and 
+			tc.ClientState = #ClientState#
+			and 
+			tc.AreaName = ta.Area_ID
+			and 
+			ta.Area_state = 0
+			and 
+			tc.AreaName = #AreaName#
+		</select>
+		<insert id="InsertClientList" parameterClass="Client">
+			insert into TB_ClientInfo
+			(ClientName,ClientOperationID,ClientPhone,ClientAddress,ClientAccounts,ClientPassword,AcceptDate,RunDate,IDCard,ProductType,CircsDescribe,Remark,AreaName,AvDate,ClientListID,RegisterMane)
+			values
+			(#ClientName#,#ClientOperationID#,#ClientPhone#,#ClientAddress#,#ClientAccounts#,#ClientPassword#,#AcceptDate#,#RunDate#,#IDCard#,#ProductType#,#CircsDescribe#,#Remark#,#AreaName#,#AvDate#,#ClientListID#,#RegisterMane#)
+		</insert>
+		<select id="SelectClient_by_id" resultMap="SelectResult">
+			select * from TB_ClientInfo
+			where
+			Client_ID = #value#
+		</select>
+		<update id="updateClientList" parameterClass="Client">
+			update TB_ClientInfo set
+			ClientName = #ClientName#
+			,ClientOperationID = #ClientOperationID#
+			,ClientPhone = #ClientPhone#
+			,ClientAddress = #ClientAddress#
+			,ClientAccounts = #ClientAccounts#
+			,ClientPassword = #ClientPassword#
+			,AcceptDate = #AcceptDate#
+			,RunDate = #RunDate#
+			,IDCard = #IDCard#
+			,ProductType = #ProductType#
+			,Remark = #Remark#
+			,AreaName = #AreaName#
+			,AvDate = #AvDate#
+			,ClientListID = #ClientListID#
+			,RegisterMane = #RegisterMane#
+			,RegisterTime = #RegisterTime#
+			,CircsDescribe = #CircsDescribe#
+			where
+			Client_ID = #Client_ID#
+		</update>
+		<update id="upateClientstate"  parameterClass="Client">
+			update TB_ClientInfo set
+			ClientState = #ClientState#
+			where
+			Client_ID = #Client_ID#
+		</update>
+		
+		<select id="selectClient_by_opid" resultMap="SelectResult">
+		    select * from TB_ClientInfo
+		    where
+            ClientOperationID = #value#
+            and 
+            ClientState = 0
+		</select>
+		<select id="selectClient_Arae_by_MaxClistid" resultMap="SelectResult1"  parameterClass ="string">
+			 select Cast(max(cast(ClientListID as numeric(10,0))) as varchar) ClientListID from TB_ClientInfo
+			 where
+			 ClientState = 0
+			 and
+			 AreaName = #value#	 
+		</select>
+		<delete id="deleteClient_by_id">
+			delete from TB_ClientInfo
+			where
+			Client_ID = #value#
+		</delete>
+		
+		<select id="selecjgwk" resultMap="SelectResult">
+			select * from TB_ClientInfo
+		    where
+		    RunDate = ''
+		</select>
+		
+		<insert id="addClient_Rundate" parameterClass="Client_Rundate">
+		    insert into T_Client_Rundate
+		    (ClientOperationID,Client_ID,Runyear,Runmonth,area_id)
+		    values
+		    (#ClientOperationID#,#Client_ID#,#Runyear#,#Runmonth#,#area_id#)
+		</insert>
+		<update id="updateClient_Rundate" parameterClass="Client_Rundate">
+			update T_Client_Rundate set
+			ClientOperationID = #ClientOperationID#
+			,Runyear = #Runyear#
+			,Runmonth = #Runmonth#
+			,area_id = #area_id#
+			where
+			Client_ID = #Client_ID#
+		</update>
+		<select id="selectClient_Rundate" resultMap="SelectResult2">
+			select tc.* from T_Client_Rundate tc,TB_ClientInfo tb
+			where
+			tc.Client_ID = #Client_ID#
+			and
+			tc.ClientOperationID = tb.ClientOperationID
+			and
+			tb.ClientState = '0'
+		</select>
+		<select id="Client_by_state" resultMap="SelectResult">
+			select * from TB_ClientInfo
+			where
+			ClientState = #value#
+		</select>
+		<select id="selectClient_Rundate_by_ClientOperationID" resultMap="SelectResult2">
+			select * from T_Client_Rundate
+			where
+			ClientOperationID = #value#
+		</select>
+		<delete id="delete_Client_Rundate">
+			delete from T_Client_Rundate
+			where
+			ClientOperationID = #value#
+		</delete>
+	</statements>
+</sqlMap>

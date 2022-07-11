@@ -1,0 +1,151 @@
+BODY
+{
+	font-size: 9pt;
+	background-image: none;
+	margin: 0px;
+	color: #000000;
+	background-color: #F1F7F7;
+}
+#nonbg
+{
+	margin-left: 5px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	font-size: 9pt;
+	color: #000000;
+	background-color: #DEEBF5;
+}
+TABLE {
+	FONT-SIZE: 9pt;
+	COLOR: #000000;
+}
+TD {
+	FONT-SIZE: 9pt;
+	COLOR: #000000;
+	word-break:break-all;
+}
+A:link {
+	COLOR: #6699cc;
+	text-decoration: none;
+}
+A:hover {
+	COLOR: #cc6600;
+	text-decoration: none;
+}
+A:visited {
+	COLOR: #6699cc;
+	text-decoration: none;
+}
+A:active {
+	COLOR: #003366;
+	text-decoration: none;
+}
+.toptd {
+	background-color: #95B8E6;
+	background: url(../images/bg_nav.gif) #95B8E6 repeat-x left bottom;
+}
+.topltdbgimg {
+	background: url(../images/bg_nav.gif) #95B8E6 no-repeat left top;
+}
+.toprtdbgimg {
+	background: url(../images/bg_nav.gif) #95B8E6 no-repeat right 50%;
+}
+#top A:link {
+	COLOR: #FFFFFF;
+	text-decoration: none;
+}
+#top A:hover {
+	COLOR: #FFFFFF;
+	text-decoration: none;
+}
+#top A:visited {
+	COLOR: #FFFFFF;
+	text-decoration: none;
+}
+#top A:active {
+	COLOR: #FFFFFF;
+	text-decoration: none;
+}
+.header-l {
+	background: url(../images/bg_header.gif) no-repeat left bottom;
+}
+.header-r {
+	background: url(../images/bg_header.gif) no-repeat right bottom;
+}
+/*------ 上下园角 ------*/
+.tsr-l-t {
+	background:url(../images/tsr.gif) top left no-repeat;
+}
+.tsr-r-t {
+	background:url(../images/tsr.gif) top right no-repeat;
+}
+.tsr-l-b {
+	background:url(../images/tsr.gif) bottom left no-repeat;
+}
+.tsr-r-b {
+	background:url(../images/tsr.gif) bottom right no-repeat;
+}
+.tsr-l-c {
+	background: url(../images/tsr.gif) left -17px no-repeat;
+}
+.tsr-r-c {
+	background: url(../images/tsr.gif) right -17px no-repeat;
+}
+/*------ 上园角 下方角 ------*/
+.content-top{
+	/*-- background: url(../images/bg_content.gif) no-repeat 0 0; --*/
+}
+.content-top-2{
+	/*-- background: url(../images/bg_content.gif) no-repeat right top;  --*/
+}
+
+.content-middle{
+	/*--  background: url(../images/bg_content.gif) #FFFFFF repeat-y left -17px; --*/
+}
+.content-middle2{
+	/*--  background: url(../images/bg_content.gif) repeat-y right -17px; --*/
+}
+.content-bottom{
+	/*-- background: url(../images/bg_content.gif) no-repeat left bottom; --*/
+}
+.content-bottom-2{
+	/*-- background: url(../images/bg_content.gif) no-repeat right bottom; --*/
+}
+/*-------小标签 上园下方-------*/
+.sidebar-blue {
+	background: url(../images/bg_sidebar.gif) no-repeat -975px 0px;
+}
+/* -------------标题------------*/
+.title {
+	font-family: "宋体";
+	font-size: 11pt;
+	font-weight: bold;
+	color: #3878db;
+}
+/*------------表格---------------*/
+.table {
+	font-size: 9pt;
+	border-top: 1px solid #BBBBBB;
+	border-right: 0px solid #BBBBBB;
+	border-bottom: 0px solid #BBBBBB;
+	border-left: 1px solid #BBBBBB;
+}
+.table TD {
+	font-size: 9pt;
+	border-top: 0px solid #FFFFFF;
+	border-right: 1px solid #BBBBBB;
+	border-bottom: 1px solid #BBBBBB;
+	border-left: 0px solid #FFFFFF;
+}
+.TD-TITLE {
+	background-color: #a1bdea;	
+}
+/*-------------错误信息------------*/
+.err {
+	color: #FF0000;
+}
+.white_font {
+	font-size: 9pt;
+	color: #FFFFFF;
+}

@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<sqlMap namespace="affiche" xmlns="http://ibatis.apache.org/mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<alias>
+		<typeAlias alias="affiche" type="NrOA.Affiche.em.affiche" />
+	</alias>
+	<resultMaps>
+		<resultMap id="SelectResult" class="affiche">
+			<result property="Affiche_ID" column="Affiche_ID"/>
+			<result property="Affiche_content" column="Affiche_content"/>
+			<result property="RegisterMane" column="RegisterMane"/>
+			<result property="state" column="state"/>
+		</resultMap>
+	</resultMaps>
+	<statements>
+		
+		<select id="SelectAffiche_state" resultMap="SelectResult">
+			select * from t_Affiche
+			where 
+			state = #value#
+			order by Affiche_ID desc
+ 		</select>
+	
+		<select id="SelectAfficheAll" resultMap="SelectResult">
+			select * from t_Affiche
+			order by Affiche_ID desc
+		</select>
+		<select id="SelectAffiche_By_ID"  resultMap="SelectResult" >
+			select * from t_Affiche
+			where 
+			Affiche_ID = #value#
+		</select>
+		<update id="Affiche_State_Change" parameterClass="affiche">
+			update t_Affiche set
+			state = #state#
+			where
+			Affiche_ID = #Affiche_ID#
+		</update>
+		<insert id="InsertafficheInfo" parameterClass="affiche"> 
+			insert into t_Affiche
+			(Affiche_content,RegisterMane,state)
+			values
+			(#Affiche_content#,#RegisterMane#,#state#)
+		</insert>
+		<update id="Update_afficheInfo" parameterClass="affiche">
+			update t_Affiche set
+			Affiche_content = #Affiche_content#,
+			RegisterMane = #RegisterMane#,
+			state = #state#
+			where
+			Affiche_ID = #Affiche_ID#
+		</update>
+		<delete id="delete_afficheInfo" >
+			delete from t_Affiche
+			where
+			Affiche_ID = #value#
+		</delete>
+	</statements>
+</sqlMap>
+

@@ -1,0 +1,1011 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<sqlMap namespace="ChargeCollect" xmlns="http://ibatis.apache.org/mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<alias>
+		<typeAlias alias="ChargeCollect" type="NrOA.CheckAccount.em.ChargeCollect" />
+	</alias>
+	<resultMaps>
+		<resultMap id="SelectResult" class="ChargeCollect">
+			
+			<result property="id" column="id" />
+			<result property="ClientOperationID" column="ClientOperationID" />
+			<result property="Poundage" column="Poundage" />
+			<result property="OneOffConnectFees" column="OneOffConnectFees" />
+			<result property="MovePay" column="MovePay" />
+			<result property="oneyue" column="oneyue" />
+			<result property="twoyue" column="twoyue" />
+			<result property="threeyue" column="threeyue" />
+			<result property="fouryue" column="fouryue" />
+			<result property="fiveyue" column="fiveyue" />
+			<result property="sixyue" column="sixyue" />
+			<result property="sevenyue" column="sevenyue" />
+			<result property="eightyue" column="eightyue" />
+			<result property="nineyue" column="nineyue" />
+			<result property="tenyue" column="tenyue" />
+			<result property="elevenyue" column="elevenyue" />
+			<result property="twelveyue" column="twelveyue" />
+			<result property="remark" column="remark" />
+			<result property="year" column="year" />
+			<result property="OMPoundage" column="OMPoundage" />
+			<result property="onePoundage" column="onePoundage" />
+			<result property="twoPoundage" column="twoPoundage" />
+			<result property="threePoundage" column="threePoundage" />
+			<result property="fourPoundage" column="fourPoundage" />
+			<result property="fivePoundage" column="fivePoundage" />
+			<result property="sixPoundage" column="sixPoundage" />
+			<result property="sevenPoundage" column="sevenPoundage" />
+			<result property="eightPoundage" column="eightPoundage" />
+			<result property="ninePoundage" column="ninePoundage" />
+			<result property="tenPoundage" column="tenPoundage" />
+			<result property="elevenPoundage" column="elevenPoundage" />
+			<result property="twelvePoundage" column="twelvePoundage" />
+			<result property="area_id" column="area_id" />
+			<result property="state" column="state" />
+
+			
+		</resultMap>
+		
+		<resultMap id="SelectResult1" class="ChargeCollect">
+			<result property="id" column="id" />
+			<result property="id" column="id" />
+			<result property="ClientOperationID" column="ClientOperationID" />
+			<result property="Poundage" column="Poundage" />
+			<result property="OneOffConnectFees" column="OneOffConnectFees" />
+			<result property="MovePay" column="MovePay" />
+			<result property="oneyue" column="oneyue" />
+			<result property="twoyue" column="twoyue" />
+			<result property="threeyue" column="threeyue" />
+			<result property="fouryue" column="fouryue" />
+			<result property="fiveyue" column="fiveyue" />
+			<result property="sixyue" column="sixyue" />
+			<result property="sevenyue" column="sevenyue" />
+			<result property="eightyue" column="eightyue" />
+			<result property="nineyue" column="nineyue" />
+			<result property="tenyue" column="tenyue" />
+			<result property="elevenyue" column="elevenyue" />
+			<result property="twelveyue" column="twelveyue" />
+			<result property="remark" column="remark" />
+			<result property="year" column="year" />
+			<result property="OMPoundage" column="OMPoundage" />
+			<result property="onePoundage" column="onePoundage" />
+			<result property="twoPoundage" column="twoPoundage" />
+			<result property="threePoundage" column="threePoundage" />
+			<result property="fourPoundage" column="fourPoundage" />
+			<result property="fivePoundage" column="fivePoundage" />
+			<result property="sixPoundage" column="sixPoundage" />
+			<result property="sevenPoundage" column="sevenPoundage" />
+			<result property="eightPoundage" column="eightPoundage" />
+			<result property="ninePoundage" column="ninePoundage" />
+			<result property="tenPoundage" column="tenPoundage" />
+			<result property="elevenPoundage" column="elevenPoundage" />
+			<result property="twelvePoundage" column="twelvePoundage" />
+			<result property="area_id" column="area_id" />
+			<result property="state" column="state" />
+			
+			
+			<result property="AreaName" column="AreaName" />
+			<result property="RunDate" column="RunDate" />
+			<result property="ClientName" column="ClientName" />
+			<result property="ProductType" column="ProductType" />
+			<result property="ClientListID" column="ClientListID" />
+
+			
+		</resultMap>
+	</resultMaps>
+	
+	<!--存储过程参数-->
+	<!--<parameterMaps>
+		<parameterMap id="setpay" class="ChargeCollect">
+		<parameter property="year_date" column=""/>
+		</parameterMap>
+	</parameterMaps>-->
+	
+	<statements>
+		<select id="ClientintCharge" parameterClass="ChargeCollect" resultMap="SelectResult">
+			select * 
+			from 
+			T_ChargeCollect
+			where
+			ClientOperationID = #ClientOperationID#
+			and 
+			year = #year#
+			and 
+			ClientOperationID in (select ClientOperationID from TB_ClientInfo)
+		</select>
+		<insert id="insertClientintChargel" parameterClass="ChargeCollect">
+		    insert into T_ChargeCollect
+		    (
+		    ClientOperationID,Poundage,OneOffConnectFees,MovePay,
+		    oneyue,twoyue,threeyue,fouryue,fiveyue,sixyue,sevenyue,eightyue,nineyue,tenyue,elevenyue,twelveyue,
+		    remark,year,OMPoundage,
+		    onePoundage,twoPoundage,threePoundage,fourPoundage,fivePoundage,sixPoundage,sevenPoundage,eightPoundage,
+		    ninePoundage,tenPoundage,elevenPoundage,twelvePoundage
+		    )
+		    values
+		    (
+		    #ClientOperationID#,#Poundage#,#OneOffConnectFees#,#MovePay#,
+		    #oneyue#,#twoyue#,#threeyue#,#fouryue#,#fiveyue#,#sixyue#,#sevenyue#,#eightyue#,#nineyue#,#tenyue#,#elevenyue#,#twelveyue#,
+		    #remark#,#year#,#OMPoundage#,
+		    #onePoundage#,#twoPoundage#,#threePoundage#,#fourPoundage#,#fivePoundage#,#sixPoundage#,#sevenPoundage#,#eightPoundage#,
+		    #ninePoundage#,#tenPoundage#,#elevenPoundage#,#twelvePoundage#
+		    )
+		</insert>
+		<update id="updateClientintChargel" parameterClass="ChargeCollect">
+			update T_ChargeCollect set
+			ClientOperationID=#ClientOperationID#
+			,Poundage=#Poundage#
+			,OneOffConnectFees=#OneOffConnectFees#
+			,MovePay=#MovePay#
+			,oneyue=#oneyue#
+			,twoyue=#twoyue#
+			,threeyue=#threeyue#
+			,fouryue=#fouryue#
+			,fiveyue=#fiveyue#
+			,sixyue=#sixyue#
+			,sevenyue=#sevenyue#
+			,eightyue=#eightyue#
+			,nineyue=#nineyue#
+			,tenyue=#tenyue#
+			,elevenyue=#elevenyue#
+			,twelveyue=#twelveyue#
+			,remark=#remark#
+			,year=#year#
+			,OMPoundage=#OMPoundage#
+			,onePoundage=#onePoundage#
+			,twoPoundage=#twoPoundage#
+			,threePoundage=#threePoundage#
+			,fourPoundage=#fourPoundage#
+			,fivePoundage=#fivePoundage#
+			,sixPoundage=#sixPoundage#
+			,sevenPoundage=#sevenPoundage#
+			,eightPoundage=#eightPoundage#
+			,ninePoundage=#ninePoundage#
+			,tenPoundage=#tenPoundage#
+			,elevenPoundage=#elevenPoundage#
+			,twelvePoundage=#twelvePoundage#
+			,area_id=#area_id#
+			,state=#state#
+			where
+			id = #id#
+		</update>
+		
+		<select id="SelectChargeinfo_list1" resultMap="SelectResult">
+			#value#
+		</select>
+		
+		<!--//某年1月份-->
+		<select id="ChargeCollectlist1_1" parameterClass="ChargeCollect" resultMap="SelectResult1">
+			select DISTINCT a.id, a.*, 
+			c.AreaName,
+			b.RunDate,
+			b.ClientName,
+			b.ProductType,
+			b.ClientListID
+			from 
+			T_ChargeCollect a,
+			TB_ClientInfo b,
+			TB_Area c,
+			tb_chargeinfo d
+			where
+			a.ClientOperationID = b.ClientOperationID
+			and a.ClientOperationID = d.ClientOperationID
+			and 
+			a.year = #year#
+			and d.Payment_by_Month =#month#
+			and d.Payment_by_Year = #year#
+			and 
+			a.area_id = c.Area_ID
+		</select>
+		<!--//某年1月份某小区-->
+		<select id="ChargeCollectlist1_2" parameterClass="ChargeCollect" resultMap="SelectResult1">
+			select  DISTINCT a.id, a.*, 
+			c.AreaName,
+			b.RunDate,
+			b.ClientName,
+			b.ProductType,
+			b.ClientListID
+			from 
+			T_ChargeCollect a,
+			TB_ClientInfo b,
+			TB_Area c,
+			tb_chargeinfo d
+			where
+			a.ClientOperationID = b.ClientOperationID
+			and a.ClientOperationID = d.ClientOperationID
+			and 
+			a.year = #year#
+			and d.Payment_by_Month =#month#
+			and d.Payment_by_Year = #year#
+			and
+			a.area_id = c.Area_ID
+			and 
+			a.area_id = #area_id#
+			--order by CASt(b.ClientListID as int) asc
+		</select>
+		<!--//某年1月份模糊查询（业务号、名称）-->
+		<select id="ChargeCollectlist1_3" parameterClass="ChargeCollect" resultMap="SelectResult1">
+			select  DISTINCT a.id, a.*, 
+			c.AreaName,
+			b.RunDate,
+			b.ClientName,
+			b.ProductType,
+			b.ClientListID
+			from 
+			T_ChargeCollect a,
+			TB_ClientInfo b,
+			TB_Area c,
+			 tb_chargeinfo d
+			where
+			a.ClientOperationID = b.ClientOperationID
+			and a.ClientOperationID = d.ClientOperationID
+			and 
+			a.year = #year1#
+			and d.Payment_by_Month =#month#
+			and d.Payment_by_Year = #year1#
+			and
+			a.area_id = c.Area_ID
+			and
+			(b.ClientName like #str# or b.ClientOperationID like #str#)
+		</select>
+		
+		<!--//某年1月份状态1-分成比例出错-->
+		<select id="ChargeCollectlist1_4_1" parameterClass="ChargeCollect" resultMap="SelectResult1">
+			select DISTINCT a.id,
+            a.*,
+			c.AreaName,
+			b.RunDate,
+			b.ClientName,
+			b.ProductType,
+			b.ClientListID
+			from
+			T_ChargeCollect a,
+			TB_ClientInfo b,
+			TB_Area c,
+            tb_chargeinfo d
+			where
+			a.ClientOperationID = b.ClientOperationID
+			and a.ClientOperationID = d.ClientOperationID
+			and 
+			a.year = #year#
+			and d.Payment_by_Month =#month#
+			and d.Payment_by_Year = #year#
+			and a.Poundage != d.Now_Poundage
+			and
+			a.area_id = c.Area_ID
+			
+		</select>
+		
+		<!--//某年某月份状态3-根据开通为某月的查询对应回款信息-->
+		<select id="ChargeCollectlist1_4_2" parameterClass="ChargeCollect" resultMap="SelectResult1">
+			select DISTINCT a.id, a.*, 
+			c.AreaName,
+			b.RunDate,
+			b.ClientName,
+			b.ProductType,
+			b.ClientListID
+			from 
+			T_ChargeCollect a,
+			TB_ClientInfo b,
+			TB_Area c,
+			
+			T_Client_Rundate e
+			where
+			a.ClientOperationID = b.ClientOperationID
+			
+			and a.ClientOperationID =e.ClientOperationID
+			and a.year = #year1#
+			and e.runmonth  = #month#
+			and 
+			a.area_id = c.Area_ID
+			and e.runyear =#year#
+		</select>
+		<!--某年某月份某小区模糊查询-->
+		<select id="ChargeCollectlist1_5" parameterClass="ChargeCollect" resultMap="SelectResult1">
+			select DISTINCT a.id,
+            a.*,
+			c.AreaName,
+			b.RunDate,
+			b.ClientName,
+			b.ProductType,
+			b.ClientListID
+			from
+			T_ChargeCollect a,
+			TB_ClientInfo b,
+			TB_Area c,
+            tb_chargeinfo d
+			where
+			a.ClientOperationID = b.ClientOperationID
+			and a.ClientOperationID = d.ClientOperationID
+			and 
+			a.year = #year#
+			and d.Payment_by_Month =#month#
+			and d.Payment_by_Year = #year#
+			and a.Poundage != d.Now_Poundage
+			and
+			a.area_id = c.Area_ID
+			and
+			(b.ClientName like #str# or b.ClientOperationID like #str#)
+			and 
+			a.area_id = #area_id#
+			--order by CASt(b.ClientListID as int) asc
+		</select>
+		<!--//某年某月份某小区状态1-分成比例出错-->
+		<select id="ChargeCollectlist1_6_1" parameterClass="ChargeCollect" resultMap="SelectResult1">
+			select DISTINCT a.id,
+            a.*,
+			c.AreaName,
+			b.RunDate,
+			b.ClientName,
+			b.ProductType,
+			b.ClientListID
+			from
+			T_ChargeCollect a,
+			TB_ClientInfo b,
+			TB_Area c,
+            tb_chargeinfo d
+			where
+			a.ClientOperationID = b.ClientOperationID
+			and a.ClientOperationID = d.ClientOperationID
+			and 
+			a.year = #year#
+			and d.Payment_by_Month =#month#
+			and d.Payment_by_Year = #year#
+			and a.Poundage != d.Now_Poundage
+			and
+			a.area_id = c.Area_ID
+			and 
+			a.area_id = #area_id#
+			--order by CASt(b.ClientListID as int) asc
+		</select>
+			<!--//某年1月份某小区状态3-根据开通为1月的查询对应回款信息-->
+		<select id="ChargeCollectlist1_6_2" parameterClass="ChargeCollect" resultMap="SelectResult1">
+			select DISTINCT a.id, a.*, 
+			c.AreaName,
+			b.RunDate,
+			b.ClientName,
+			b.ProductType,
+			b.ClientListID
+			from 
+			T_ChargeCollect a,
+			TB_ClientInfo b,
+			TB_Area c,
+			
+			T_Client_Rundate e
+			where
+			a.ClientOperationID = b.ClientOperationID
+			
+			and a.ClientOperationID =e.ClientOperationID
+			
+			and e.runmonth  = #month#
+			and 
+			a.area_id = c.Area_ID
+			and e.runyear =#year#
+			and
+			c.Area_ID = #area_id#
+			and a.year = #year1#
+			order by a.ClientOperationID  asc
+		</select>
+			<!--//某年某月份模糊查询状态1-分成比例出错-->
+		<select id="ChargeCollectlist1_7_1" parameterClass="ChargeCollect" resultMap="SelectResult1">
+			select DISTINCT a.id,
+            a.*,
+			c.AreaName,
+			b.RunDate,
+			b.ClientName,
+			b.ProductType,
+			b.ClientListID
+			from
+			T_ChargeCollect a,
+			TB_ClientInfo b,
+			TB_Area c,
+            tb_chargeinfo d
+			where
+			a.ClientOperationID = b.ClientOperationID
+			and a.ClientOperationID = d.ClientOperationID
+			and 
+			a.year = #year#
+			and d.Payment_by_Month =#month#
+			and d.Payment_by_Year = #year#
+			and a.Poundage != d.Now_Poundage
+			and
+			a.area_id = c.Area_ID
+			and
+			(b.ClientName like #str# or b.ClientOperationID like #str#)
+		</select>
+		<!--//某年某月份模糊查询状态3-根据开通为1月的查询对应回款信息-->
+		<select id="ChargeCollectlist1_7_2" parameterClass="ChargeCollect" resultMap="SelectResult1">
+			select DISTINCT a.id, a.*, 
+			c.AreaName,
+			b.RunDate,
+			b.ClientName,
+			b.ProductType,
+			b.ClientListID
+			from 
+			T_ChargeCollect a,
+			TB_ClientInfo b,
+			TB_Area c,
+			
+			 T_Client_Rundate e
+			where
+			a.ClientOperationID = b.ClientOperationID
+			
+			and a.ClientOperationID =e.ClientOperationID
+			and e.year = #year1#
+			and e.runmonth  = #month#
+			and 
+			a.area_id = c.Area_ID
+			and e.runyear =#year#
+			and
+			(b.ClientName like #str# or b.ClientOperationID like #str#)
+		</select>
+		<!--//某年某月份模糊查询小区状态1-分成比例出错-->
+		<select id="ChargeCollectlist1_8_1" parameterClass="ChargeCollect" resultMap="SelectResult1">
+			select DISTINCT a.id,
+            a.*,
+			c.AreaName,
+			b.RunDate,
+			b.ClientName,
+			b.ProductType,
+			b.ClientListID
+			from
+			T_ChargeCollect a,
+			TB_ClientInfo b,
+			TB_Area c,
+            tb_chargeinfo d
+			where
+			a.ClientOperationID = b.ClientOperationID
+			and a.ClientOperationID = d.ClientOperationID
+			and 
+			a.year = #year#
+			and d.Payment_by_Month =#month#
+			and d.Payment_by_Year = #year#
+			and a.Poundage != d.Now_Poundage
+			and
+			a.area_id = c.Area_ID
+			and
+			(b.ClientName like #str# or b.ClientOperationID like #str#)
+			and 
+			a.area_id = #area_id#
+			--order by CASt(b.ClientListID as int) asc
+		</select>
+		<!--//某年某月份模糊查询小区状态3-根据开通为1月的查询对应回款信息-->
+		<select id="ChargeCollectlist1_8_2" parameterClass="ChargeCollect" resultMap="SelectResult1">
+			select DISTINCT a.id, a.*, 
+			c.AreaName,
+			b.RunDate,
+			b.ClientName,
+			b.ProductType,
+			b.ClientListID
+			from 
+			T_ChargeCollect a,
+			TB_ClientInfo b,
+			TB_Area c,
+			
+			T_Client_Rundate e
+			where
+			a.ClientOperationID = b.ClientOperationID
+			
+			and a.ClientOperationID =e.ClientOperationID
+			and e.year = #year1#
+			and e.runmonth  = #month#
+			and 
+			a.area_id = c.Area_ID
+			and e.runyear =#year#
+			and	c.Area_ID = #area_id#
+			and (b.ClientName like #str# or b.ClientOperationID like #str#)
+			--order by CASt(b.ClientListID as int) asc
+		</select>
+		<!--某年-->
+		<select id="ChargeCollectlist0_1" parameterClass="ChargeCollect" resultMap="SelectResult1">
+			select DISTINCT a.id, a.*, 
+			c.AreaName,
+			b.RunDate,
+			b.ClientName,
+			b.ProductType,
+			b.ClientListID
+			from 
+			T_ChargeCollect a,
+			TB_ClientInfo b,
+			TB_Area c,
+			tb_chargeinfo d
+			where
+			a.ClientOperationID = b.ClientOperationID
+			and a.ClientOperationID = d.ClientOperationID
+			and 
+			a.year = #year#
+			and d.Payment_by_Year = #year#
+			and 
+			a.area_id = c.Area_ID
+		</select>
+		
+		<!--某年某小区-->
+		<select id="ChargeCollectlist0_2" parameterClass="ChargeCollect" resultMap="SelectResult1">
+			select DISTINCT a.id, a.*, 
+			c.AreaName,
+			b.RunDate,
+			b.ClientName,
+			b.ProductType,
+			b.ClientListID
+			from 
+			T_ChargeCollect a,
+			TB_ClientInfo b,
+			TB_Area c,
+			tb_chargeinfo d
+			where
+			a.ClientOperationID = b.ClientOperationID
+			and a.ClientOperationID = d.ClientOperationID
+			and 
+			a.year = #year#
+			and d.Payment_by_Year = #year#
+			and 
+			a.area_id = c.Area_ID
+			and 
+			a.area_id = #area_id#
+			--order by CASt(b.ClientListID as int) asc
+		</select>
+		
+		<!--某年模糊查询-->
+		<select id="ChargeCollectlist0_3" parameterClass="ChargeCollect" resultMap="SelectResult1">
+			select DISTINCT a.id, a.*, 
+			c.AreaName,
+			b.RunDate,
+			b.ClientName,
+			b.ProductType,
+			b.ClientListID
+			from 
+			T_ChargeCollect a,
+			TB_ClientInfo b,
+			TB_Area c,
+			tb_chargeinfo d, T_Client_Rundate e
+			where
+			a.ClientOperationID = b.ClientOperationID
+			and a.ClientOperationID = d.ClientOperationID
+			and 
+			a.year = #year1#
+			and d.Payment_by_Year = #year1#
+			and 
+			a.area_id = c.Area_ID
+			and
+			(b.ClientName like #str# or b.ClientOperationID like #str#)
+			and e.runyear =#year#
+		</select>
+		
+		<!--某年分成比例出错-->
+		<select id="ChargeCollectlist0_4_1" parameterClass="ChargeCollect" resultMap="SelectResult1">
+			select DISTINCT a.id,
+            a.*,
+			c.AreaName,
+			b.RunDate,
+			b.ClientName,
+			b.ProductType,
+			b.ClientListID
+			from
+			T_ChargeCollect a,
+			TB_ClientInfo b,
+			TB_Area c,
+            tb_chargeinfo d
+			where
+			a.ClientOperationID = b.ClientOperationID
+			and a.ClientOperationID = d.ClientOperationID
+			and 
+			a.year = #year#
+			and d.Payment_by_Year = #year#
+			and a.Poundage != d.Now_Poundage
+			and
+			a.area_id = c.Area_ID
+		</select>
+		<!--某年全年无回款-->
+		<select id="ChargeCollectlist0_4_2" parameterClass="ChargeCollect" resultMap="SelectResult1">
+			select DISTINCT a.id,
+            a.*,
+			c.AreaName,
+			b.RunDate,
+			b.ClientName,
+			b.ProductType,
+			b.ClientListID
+			from
+			T_ChargeCollect a,
+			TB_ClientInfo b,
+			TB_Area c,
+            tb_chargeinfo d
+			where
+			a.ClientOperationID = b.ClientOperationID
+			and a.ClientOperationID = d.ClientOperationID
+			and 
+			a.year = #year#
+			and d.Payment_by_Year = #year#
+			and
+			a.area_id = c.Area_ID
+			and
+			(a.OneOffConnectFees = '0'
+			and a.MovePay = '0'
+			and a.oneyue = '0'			
+			and a.twoyue = '0'
+			and a.threeyue = '0'			
+			and a.fouryue = '0'
+			and a.fiveyue = '0'			
+			and a.sixyue = '0'
+			and a.sevenyue = '0'			
+			and a.eightyue = '0'
+			and a.nineyue = '0'			
+			and a.tenyue = '0'
+			and a.elevenyue = '0'			
+			and a.twelveyue = '0')
+		</select>
+		<select id="ChargeCollectlist0_4_3" parameterClass="ChargeCollect" resultMap="SelectResult1">
+			select DISTINCT a.id, a.*, 
+			c.AreaName,
+			b.RunDate,
+			b.ClientName,
+			b.ProductType,
+			b.ClientListID
+			from 
+			T_ChargeCollect a,
+			TB_ClientInfo b,
+			TB_Area c,
+			tb_chargeinfo d,
+			T_Client_Rundate e
+			where
+			a.ClientOperationID = b.ClientOperationID
+			and a.ClientOperationID = d.ClientOperationID
+			and a.ClientOperationID =e.ClientOperationID
+			and e.runyear = #year#			
+			and a.area_id = c.Area_ID
+			and d.Payment_by_Year = #year1#
+		</select>
+		<!--某年分成比例出错 小区-->
+		<select id="ChargeCollectlist0_5_1" parameterClass="ChargeCollect" resultMap="SelectResult1">
+			select DISTINCT a.id,
+            a.*,
+			c.AreaName,
+			b.RunDate,
+			b.ClientName,
+			b.ProductType,
+			b.ClientListID
+			from
+			T_ChargeCollect a,
+			TB_ClientInfo b,
+			TB_Area c,
+            tb_chargeinfo d
+			where
+			a.ClientOperationID = b.ClientOperationID
+			and a.ClientOperationID = d.ClientOperationID
+			and 
+			a.year = #year#
+			and d.Payment_by_Year = #year#
+			and a.Poundage != d.Now_Poundage
+			and
+			a.area_id = c.Area_ID
+			and 
+			a.area_id = #area_id#
+			--order by CASt(b.ClientListID as int) asc
+		</select>
+		<!--某年全年无回款 小区-->
+		<select id="ChargeCollectlist0_5_2" parameterClass="ChargeCollect" resultMap="SelectResult1">
+			select DISTINCT a.id,
+            a.*,
+			c.AreaName,
+			b.RunDate,
+			b.ClientName,
+			b.ProductType,
+			b.ClientListID
+			from
+			T_ChargeCollect a,
+			TB_ClientInfo b,
+			TB_Area c,
+            tb_chargeinfo d
+			where
+			a.ClientOperationID = b.ClientOperationID
+			and a.ClientOperationID = d.ClientOperationID
+			and 
+			a.year = #year#
+			and d.Payment_by_Year = #year#
+			and
+			a.area_id = c.Area_ID
+			and
+			(a.OneOffConnectFees = '0'
+			and a.MovePay = '0'
+			and a.oneyue = '0'			
+			and a.twoyue = '0'
+			and a.threeyue = '0'			
+			and a.fouryue = '0'
+			and a.fiveyue = '0'			
+			and a.sixyue = '0'
+			and a.sevenyue = '0'			
+			and a.eightyue = '0'
+			and a.nineyue = '0'			
+			and a.tenyue = '0'
+			and a.elevenyue = '0'			
+			and a.twelveyue = '0')
+			and 
+			a.area_id = #area_id#
+			--order by CASt(b.ClientListID as int) asc
+			</select>
+			<select id="ChargeCollectlist0_5_3" parameterClass="ChargeCollect" resultMap="SelectResult1">
+				select DISTINCT a.id, a.*, 
+				c.AreaName,
+				b.RunDate,
+				b.ClientName,
+				b.ProductType,
+				b.ClientListID
+				from 
+				T_ChargeCollect a,
+				TB_ClientInfo b,
+				TB_Area c,
+				tb_chargeinfo d,
+			    T_Client_Rundate e
+				where
+				a.ClientOperationID = b.ClientOperationID
+				and a.ClientOperationID = d.ClientOperationID
+				and a.ClientOperationID =e.ClientOperationID
+				and e.runyear = #year#		
+				and a.area_id = c.Area_ID
+				and a.area_id = #area_id#
+				and d.Payment_by_Year = #year1#
+				and a.year = #year#
+			</select>
+			<!--某年模糊-->
+		<select id="ChargeCollectlist0_6" parameterClass="ChargeCollect" resultMap="SelectResult1">
+			select DISTINCT a.id,
+            a.*,
+			c.AreaName,
+			b.RunDate,
+			b.ClientName,
+			b.ProductType,
+			b.ClientListID
+			from
+			T_ChargeCollect a,
+			TB_ClientInfo b,
+			TB_Area c,
+            tb_chargeinfo d
+			where
+			a.ClientOperationID = b.ClientOperationID
+			and a.ClientOperationID = d.ClientOperationID
+			and 
+			a.year = #year#
+			and d.Payment_by_Year = #year#
+			and
+			a.area_id = c.Area_ID
+			and
+			(b.ClientName like #str# or b.ClientOperationID like #str#)
+			and 
+			a.area_id = #area_id#
+			--order by CASt(b.ClientListID as int) asc
+		</select>
+		<!--某年分成比例出错 小区-->
+		<select id="ChargeCollectlist0_7_1" parameterClass="ChargeCollect" resultMap="SelectResult1">
+			select DISTINCT a.id,
+            a.*,
+			c.AreaName,
+			b.RunDate,
+			b.ClientName,
+			b.ProductType,
+			b.ClientListID
+			from
+			T_ChargeCollect a,
+			TB_ClientInfo b,
+			TB_Area c,
+            tb_chargeinfo d
+			where
+			a.ClientOperationID = b.ClientOperationID
+			and a.ClientOperationID = d.ClientOperationID
+			and 
+			a.year = #year#
+			and d.Payment_by_Year = #year#
+			and a.Poundage != d.Now_Poundage
+			and
+			a.area_id = c.Area_ID
+			and
+			(b.ClientName like #str# or b.ClientOperationID like #str#)</select>
+		<!--某年全年无回款 模糊-->
+		<select id="ChargeCollectlist0_7_2" parameterClass="ChargeCollect" resultMap="SelectResult1">
+			select DISTINCT a.id,
+            a.*,
+			c.AreaName,
+			b.RunDate,
+			b.ClientName,
+			b.ProductType,
+			b.ClientListID
+			from
+			T_ChargeCollect a,
+			TB_ClientInfo b,
+			TB_Area c,
+            tb_chargeinfo d
+			where
+			a.ClientOperationID = b.ClientOperationID
+			and a.ClientOperationID = d.ClientOperationID
+			and 
+			a.year = #year#
+			and d.Payment_by_Year = #year#
+			and
+			a.area_id = c.Area_ID
+			and
+			(a.OneOffConnectFees = '0'
+			and a.MovePay = '0'
+			and a.oneyue = '0'			
+			and a.twoyue = '0'
+			and a.threeyue = '0'			
+			and a.fouryue = '0'
+			and a.fiveyue = '0'			
+			and a.sixyue = '0'
+			and a.sevenyue = '0'			
+			and a.eightyue = '0'
+			and a.nineyue = '0'			
+			and a.tenyue = '0'
+			and a.elevenyue = '0'			
+			and a.twelveyue = '0')
+			and
+			(b.ClientName like #str# or b.ClientOperationID like #str#)
+			</select>
+			<select id="ChargeCollectlist0_7_3" parameterClass="ChargeCollect" resultMap="SelectResult1">
+				select  DISTINCT a.id, a.*, 
+			c.AreaName,
+			b.RunDate,
+			b.ClientName,
+			b.ProductType,
+			b.ClientListID
+			from 
+			T_ChargeCollect a,
+			TB_ClientInfo b,
+			TB_Area c,
+			tb_chargeinfo d,
+			T_Client_Rundate e
+			where
+			a.ClientOperationID = b.ClientOperationID
+			and a.ClientOperationID = d.ClientOperationID
+			and a.ClientOperationID =e.ClientOperationID
+			and e.runyear = #year#	
+			and a.area_id = c.Area_ID
+			and (b.ClientName like #str# or b.ClientOperationID like #str#)
+			and d.Payment_by_Year = #year1#
+			</select>
+			<!--某年分成比例出错 小区 模糊-->
+		<select id="ChargeCollectlist0_8_1" parameterClass="ChargeCollect" resultMap="SelectResult1">
+			select DISTINCT a.id,
+            a.*,
+			c.AreaName,
+			b.RunDate,
+			b.ClientName,
+			b.ProductType,
+			b.ClientListID
+			from
+			T_ChargeCollect a,
+			TB_ClientInfo b,
+			TB_Area c,
+            tb_chargeinfo d
+			where
+			a.ClientOperationID = b.ClientOperationID
+			and a.ClientOperationID = d.ClientOperationID
+			and 
+			a.year = #year#
+			and d.Payment_by_Year = #year#
+			and a.Poundage != d.Now_Poundage
+			and
+			a.area_id = c.Area_ID
+			and
+			(b.ClientName like #str# or b.ClientOperationID like #str#)
+			and 
+			a.area_id = #area_id#
+			--order by CASt(b.ClientListID as int) asc
+			</select>
+		<!--某年全年无回款 模糊 小区-->
+		<select id="ChargeCollectlist0_8_2" parameterClass="ChargeCollect" resultMap="SelectResult1">
+			select DISTINCT a.id,
+            a.*,
+			c.AreaName,
+			b.RunDate,
+			b.ClientName,
+			b.ProductType,
+			b.ClientListID
+			from
+			T_ChargeCollect a,
+			TB_ClientInfo b,
+			TB_Area c,
+            tb_chargeinfo d
+			where
+			a.ClientOperationID = b.ClientOperationID
+			and a.ClientOperationID = d.ClientOperationID
+			and 
+			a.year = #year#
+			and d.Payment_by_Year = #year#
+			and
+			a.area_id = c.Area_ID
+			and
+			(a.OneOffConnectFees = '0'
+			and a.MovePay = '0'
+			and a.oneyue = '0'			
+			and a.twoyue = '0'
+			and a.threeyue = '0'			
+			and a.fouryue = '0'
+			and a.fiveyue = '0'			
+			and a.sixyue = '0'
+			and a.sevenyue = '0'			
+			and a.eightyue = '0'
+			and a.nineyue = '0'			
+			and a.tenyue = '0'
+			and a.elevenyue = '0'			
+			and a.twelveyue = '0')
+			and
+			(b.ClientName like #str# or b.ClientOperationID like #str#)
+			and 
+			a.area_id = #area_id#
+			--order by CASt(b.ClientListID as int) asc
+			</select>
+			<select id="ChargeCollectlist0_8_3" parameterClass="ChargeCollect" resultMap="SelectResult1">
+				select  DISTINCT a.id, a.*, 
+				c.AreaName,
+				b.RunDate,
+				b.ClientName,
+				b.ProductType,
+				b.ClientListID
+				from 
+				T_ChargeCollect a,
+				TB_ClientInfo b,
+				TB_Area c,
+				tb_chargeinfo d,
+			    T_Client_Rundate e
+				where
+				a.ClientOperationID = b.ClientOperationID
+				and a.ClientOperationID = d.ClientOperationID
+				and a.ClientOperationID =e.ClientOperationID
+				and e.runyear = #year#	
+				and a.area_id = c.Area_ID
+				and a.area_id = #area_id#
+				and (b.ClientName like #str# or b.ClientOperationID like #str#)
+				and d.Payment_by_Year = #year1#
+			</select>
+			<select id="selectChargeCollect_by_id" resultMap ="SelectResult1">
+				select  a.id,
+				a.*,
+				c.AreaName,
+				b.RunDate,
+				b.ClientName,
+				b.ProductType,
+				b.ClientListID
+				from
+				T_ChargeCollect a,
+				TB_ClientInfo b,
+				TB_Area c
+				where
+				a.ClientOperationID = b.ClientOperationID
+				and id=#value#
+				and a.area_id = c.Area_ID
+			</select>
+			<delete id ="deleteChargeCollect_by_year_state" parameterClass="ChargeCollect">
+				delete from T_ChargeCollect
+				where
+				year = #year#
+				and
+				state = #state#
+			</delete>
+			<select id="select_Chargeinfostate" resultMap="SelectResult1">
+				select  DISTINCT a.id, a.*, 
+				c.AreaName,
+				b.RunDate,
+				b.ClientName,
+				b.ProductType,
+				b.ClientListID
+				from 
+				T_ChargeCollect a,
+				TB_ClientInfo b,
+				TB_Area c,
+				tb_chargeinfo d,
+			    T_Client_Rundate e
+				where
+				a.ClientOperationID = b.ClientOperationID
+				and a.ClientOperationID = d.ClientOperationID
+				and a.ClientOperationID =e.ClientOperationID
+				and a.area_id = c.Area_ID
+				and a.state = #value#
+			</select>
+			<delete id="delete_ChargeCollect">
+				delete from T_ChargeCollect
+				where
+				ClientOperationID = #value#
+			</delete>
+			<!--付账信息处理存储过程
+			<procedure id ="deal_pay" parameterMap="setpay" >
+			deal_pay
+			</procedure>-->
+	</statements>
+</sqlMap>
+

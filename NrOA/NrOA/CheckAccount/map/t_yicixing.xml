@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="t_yicixing" xmlns="http://ibatis.apache.org/mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="t_yicixing" type="NrOA.CheckAccount.em.t_yicixing" />
+  </alias>
+  <resultMaps>
+    <resultMap id="SelectResult" class="t_yicixing">
+      <result property="id" column="id"/>
+      <result property="usernb" column="usernb"/>
+      <result property="t_month" column="t_month"/>
+      <result property="t_year" column="t_year"/>
+      <result property="t_onepay" column="t_onepay"/>
+      <result property="month_fc" column="month_fc"/>
+      <result property="t_type" column="t_type"/>
+    </resultMap>
+
+  </resultMaps>
+  <statements>
+    <!--<select></select>-->
+    <insert id="insert_t_yicixing" parameterClass="t_yicixing">
+      insert into t_yicixing
+      (usernb,t_month,t_year,t_onepay,month_fc)
+      values
+      (#usernb#,#t_month#,#t_year#,#t_onepay#,#month_fc#)
+    </insert>
+    <!--<update id="update_t_huikuan" parameterClass="t_huikuan">
+      update t_huikuan set
+      
+      where
+      id=#id#
+    </update>-->
+    <delete id="delete_by_yx_yearandmonth" parameterClass="t_yicixing">
+      delete from t_yicixing
+      where
+      t_month = #t_month#
+      and
+      t_year = #t_year#
+    </delete>
+    <select id="ycx_by_year_id" parameterClass="t_yicixing" resultMap="SelectResult">
+    select * from t_yicixing
+    where
+     t_year = #t_year#
+     and 
+     usernb = #usernb#
+    </select>
+    
+    <select id="ycx_notin_client1" parameterClass="t_yicixing" resultMap="SelectResult">
+			select * from
+			t_yicixing
+			where
+			(usernb NOT IN
+			(SELECT ClientOperationID
+			FROM TB_ClientInfo))
+			and t_year = #t_year#
+		</select>
+		
+		<select id="ycx_notin_client2" parameterClass="t_yicixing" resultMap="SelectResult">
+			select * from
+			t_yicixing
+			where
+			(usernb NOT IN
+			(SELECT ClientOperationID
+			FROM TB_ClientInfo))
+			and t_year = #t_year#
+			and t_month = #t_month#
+		</select>
+		<select id="ycx_notin_client3" parameterClass="t_yicixing" resultMap="SelectResult">
+			select * from
+			t_yicixing
+			where
+			(usernb NOT IN
+			(SELECT ClientOperationID
+			FROM TB_ClientInfo))
+			and t_year = #t_year#
+			and (ClientName like #usernb# or ClientOperationID like #usernb#)
+		</select>
+		<select id="ycx_notin_client4" parameterClass="t_yicixing" resultMap="SelectResult">
+			select * from
+			t_yicixing
+			where
+			(usernb NOT IN
+			(SELECT ClientOperationID
+			FROM TB_ClientInfo))
+			and t_year = #t_year#
+			and t_month = #t_month#
+			and (ClientName like #usernb# or ClientOperationID like #usernb#)
+		</select>
+		<update id="update_ycx" parameterClass="t_yicixing">
+		 update t_yicixing set 
+		 t_onepay = #t_onepay#,
+		 month_fc = #month_fc#
+		 where
+		  t_year = #t_year#
+		 and 
+		 usernb = #usernb#
+		</update>
+    
+  </statements>
+  
+</sqlMap>
